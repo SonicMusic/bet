@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace Bet.Domain.GameManagment;
+namespace Bet.Domain.GameManagement;
 
 public class Team : Entity
 {
-    private readonly List<Game> _games = [];
+    private readonly List<Game> _homeGames = [];
+    private readonly List<Game> _awayGames = [];
     
     // ef core
     private Team()
@@ -18,8 +19,9 @@ public class Team : Entity
     }
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public string ShortName { get; private set; }
-    public IReadOnlyList<Game> Games => _games;
+    public int NumberGoalsScored { get; private set; }
+    public IReadOnlyList<Game> HomeGames => _homeGames;
+    public IReadOnlyList<Game> AwayGames => _awayGames;
 
     public static Result<Team> Create(string name)
     {

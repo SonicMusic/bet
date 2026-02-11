@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace Bet.Domain.GameManagment;
+namespace Bet.Domain.GameManagement;
 
 public class Game : Entity
 {
