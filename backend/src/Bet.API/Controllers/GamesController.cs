@@ -1,5 +1,6 @@
 ﻿using Bet.Contracts.Requests;
 using Bet.Domain.GameManagement;
+using Bet.Domain.TeamManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers;
@@ -17,11 +18,13 @@ public class GamesController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] CreateGameRequest request)
     {
-        var homeTeam = Team.Create(request.HomeTeamName).Value;
-        var awayTeam = Team.Create(request.AwayTeamName).Value;
+        var homeTeam = Team.Create(request.HomeTeamName).Value.Id;
+        var awayTeam = Team.Create(request.AwayTeamName).Value.Id;
         var game = Game.Create(homeTeam, awayTeam);
+        
         if (game.IsFailure)
             return BadRequest(game.Error);
+        
         return Ok(game.Value);
     }
 }

@@ -25,7 +25,6 @@ namespace Bet.Infrastructure.Migrations
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -49,10 +48,9 @@ namespace Bet.Infrastructure.Migrations
                     b.ToTable("games", (string)null);
                 });
 
-            modelBuilder.Entity("Bet.Domain.GameManagement.Team", b =>
+            modelBuilder.Entity("Bet.Domain.TeamManagement.Team", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -60,10 +58,6 @@ namespace Bet.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
-
-                    b.Property<int>("NumberGoalsScored")
-                        .HasColumnType("integer")
-                        .HasColumnName("number_goals_scored");
 
                     b.HasKey("Id")
                         .HasName("pk_teams");
@@ -73,30 +67,19 @@ namespace Bet.Infrastructure.Migrations
 
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
                 {
-                    b.HasOne("Bet.Domain.GameManagement.Team", "AwayTeam")
-                        .WithMany("AwayGames")
+                    b.HasOne("Bet.Domain.TeamManagement.Team", null)
+                        .WithMany()
                         .HasForeignKey("AwayTeamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_games_team_away_team_id");
+                        .HasConstraintName("fk_games_teams_away_team_id");
 
-                    b.HasOne("Bet.Domain.GameManagement.Team", "HomeTeam")
-                        .WithMany("HomeGames")
+                    b.HasOne("Bet.Domain.TeamManagement.Team", null)
+                        .WithMany()
                         .HasForeignKey("HomeTeamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_games_team_home_team_id");
-
-                    b.Navigation("AwayTeam");
-
-                    b.Navigation("HomeTeam");
-                });
-
-            modelBuilder.Entity("Bet.Domain.GameManagement.Team", b =>
-                {
-                    b.Navigation("AwayGames");
-
-                    b.Navigation("HomeGames");
+                        .HasConstraintName("fk_games_teams_home_team_id");
                 });
 #pragma warning restore 612, 618
         }

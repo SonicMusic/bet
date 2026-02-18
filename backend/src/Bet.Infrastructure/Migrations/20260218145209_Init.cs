@@ -6,22 +6,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bet.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "team",
+                name: "teams",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    number_goals_scored = table.Column<int>(type: "integer", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_team", x => x.id);
+                    table.PrimaryKey("pk_teams", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,15 +35,15 @@ namespace Bet.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_games", x => x.id);
                     table.ForeignKey(
-                        name: "fk_games_team_away_team_id",
+                        name: "fk_games_teams_away_team_id",
                         column: x => x.away_team_id,
-                        principalTable: "team",
+                        principalTable: "teams",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_games_team_home_team_id",
+                        name: "fk_games_teams_home_team_id",
                         column: x => x.home_team_id,
-                        principalTable: "team",
+                        principalTable: "teams",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -67,7 +66,7 @@ namespace Bet.Infrastructure.Migrations
                 name: "games");
 
             migrationBuilder.DropTable(
-                name: "team");
+                name: "teams");
         }
     }
 }

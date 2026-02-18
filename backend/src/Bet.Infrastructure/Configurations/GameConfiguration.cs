@@ -1,4 +1,5 @@
 ﻿using Bet.Domain.GameManagement;
+using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,17 +12,25 @@ public class GameConfiguration: IEntityTypeConfiguration<Game>
         builder.ToTable("games");
 
         builder.HasKey(g => g.Id);
+        builder.Property(g => g.Id)
+            .ValueGeneratedNever(); // Id генерируется доменом
 
-        // Связь: HomeTeam (1) -> (много) Game
-        builder.HasOne(g => g.HomeTeam)
-            .WithMany(t => t.HomeGames)
+        builder.Property(g => g.HomeTeamId).IsRequired();
+        builder.Property(g => g.AwayTeamId).IsRequired();
+        
+        // FK на Team без навигационных свойств
+        builder.HasOne<Team>()
+            .WithMany()
             .HasForeignKey(g => g.HomeTeamId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Связь: AwayTeam (1) -> (много) Game
-        builder.HasOne(g => g.AwayTeam)
-            .WithMany(t => t.AwayGames)
+        builder.HasOne<Team>()
+            .WithMany()
             .HasForeignKey(g => g.AwayTeamId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(g => g.HomeTeamId);
+        builder.HasIndex(g => g.AwayTeamId);
+
     }
 }

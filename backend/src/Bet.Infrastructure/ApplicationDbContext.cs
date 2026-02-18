@@ -1,4 +1,5 @@
 ﻿using Bet.Domain.GameManagement;
+using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     private const string DATABASE = "Database";
     public DbSet<Game> Games => Set<Game>();
+    public DbSet<Team> Teams => Set<Team>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

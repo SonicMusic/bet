@@ -10,20 +10,26 @@ public class Game : Entity
         
     }
 
-    private Game(Team homeTeam, Team awayTeam)
+    private Game(Guid id, Guid homeTeamId, Guid awayTeamId)
     {
-        HomeTeam = homeTeam;
-        AwayTeam = awayTeam;
+        Id = id;
+        HomeTeamId = homeTeamId;
+        AwayTeamId = awayTeamId;
     }
     
     public Guid Id { get; private set; }
-    public Team HomeTeam { get; private set; }
-    public Team AwayTeam { get; private set; }
-    public Guid HomeTeamId { get; private set; }     
+    
+    public Guid HomeTeamId { get; private set; }  
+    
     public Guid AwayTeamId { get; private set; }
 
-    public static Result<Game> Create(Team homeTeam, Team awayTeam)
+    public static Result<Game> Create(Guid homeTeamId, Guid awayTeamId)
     {
-        return new Game(homeTeam, awayTeam);
+        if (string.IsNullOrWhiteSpace(homeTeamId.ToString()))
+            return Result.Failure<Game>("HomeTeamId can not be empty"); 
+        if (string.IsNullOrWhiteSpace(awayTeamId.ToString()))
+            return Result.Failure<Game>("AwayTeamId can not be empty");
+        
+        return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
     }
 }

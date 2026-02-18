@@ -25,8 +25,6 @@ public class GamesRepository
     public async Task<Result<Game, string>> GetById(Guid guid)
     {
         var game = await _dbContext.Games
-            .Include(g => g.HomeTeam)
-            .Include(g => g.AwayTeam)
             .FirstOrDefaultAsync(g => g.Id == guid);
 
         if (game is null)
