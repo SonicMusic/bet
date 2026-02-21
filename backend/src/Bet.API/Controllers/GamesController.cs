@@ -1,7 +1,4 @@
-﻿using Bet.Contracts.Requests;
-using Bet.Domain.GameManagement;
-using Bet.Domain.TeamManagement;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers;
 
@@ -15,7 +12,7 @@ public class GamesController : ControllerBase
         return Ok();
     }
     
-    [HttpPost]
+    /*[HttpPost]
     public IActionResult Create([FromBody] CreateGameRequest request)
     {
         var homeTeam = Team.Create(request.HomeTeamName).Value.Id;
@@ -26,5 +23,5 @@ public class GamesController : ControllerBase
             return BadRequest(game.Error);
         
         return Ok(game.Value);
-    }
+    }*/
 }

@@ -1,10 +1,11 @@
-﻿using Bet.Domain.TeamManagement;
+﻿using Bet.Application;
+using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bet.Infrastructure.Repositories;
 
-public class TeamsRepository
+public class TeamsRepository : ITeamsRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
