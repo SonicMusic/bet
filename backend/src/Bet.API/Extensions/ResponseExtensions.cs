@@ -1,4 +1,5 @@
-﻿using Bet.Domain.Shared;
+﻿using Bet.API.Models;
+using Bet.Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Extensions;
@@ -7,18 +8,23 @@ public static class ResponseExtensions
 {
     public static ActionResult ToResponse(this Error error)
     {
-        var statusCode = error.Type switch
-        {
-            ErrorType.Validation => StatusCodes.Status400BadRequest,
-            ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Failure => StatusCodes.Status500InternalServerError,
-            ErrorType.Conflict => StatusCodes.Status409Conflict,
-            _ => StatusCodes.Status500InternalServerError
-        };
+        var statusCode = GetStatusCodeForErrorType(error.Type);
 
-        return new ObjectResult(error)
+        var envelope = Envelope.Error(error.ToErrorList());
+
+        return new ObjectResult(envelope)
         {
             StatusCode = statusCode
         };
     }
+    
+    private static int GetStatusCodeForErrorType(ErrorType errorType) =>
+        errorType switch
+        {
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.Failure => StatusCodes.Status500InternalServerError,
+            _ => StatusCodes.Status500InternalServerError
+        };
 }
