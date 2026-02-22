@@ -1,21 +1,22 @@
-﻿using Bet.Application.Teams;
+﻿using Bet.API.Extensions;
+using Bet.Application.Teams;
 using Bet.Contracts.Requests.Teams;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers.Teams;
 
-[ApiController]
-[Route("[controller]")]
-public class TeamsController : ControllerBase
+public class TeamsController : ApplicationController
 {
     [HttpPost]
-    public async Task<IActionResult> Create(
+    public async Task<ActionResult<Guid>> Create(
         [FromBody] CreateTeamRequest request,
         [FromServices] CreateTeamHandler handler,
         CancellationToken cancellationToken = default)
     {
-        await handler.Handle(request, cancellationToken);
+        var result = await handler.Handle(request, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
         
-        return Ok();
+        return Ok(result.Value);
     }
 }

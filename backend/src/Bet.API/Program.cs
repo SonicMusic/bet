@@ -1,7 +1,5 @@
 using Bet.Application;
-using Bet.Application.Teams;
 using Bet.Infrastructure;
-using Bet.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ApplicationDbContext>();
-builder.Services.AddScoped<CreateTeamHandler>();
-builder.Services.AddScoped<ITeamsRepository, TeamsRepository>();
+builder.Services
+    .AddAplication()
+    .AddInfrastructure();
 
 var app = builder.Build();
 

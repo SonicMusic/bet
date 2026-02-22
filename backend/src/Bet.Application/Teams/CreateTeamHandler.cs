@@ -1,4 +1,5 @@
 ﻿using Bet.Contracts.Requests.Teams;
+using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
 
@@ -13,13 +14,15 @@ public class CreateTeamHandler
         _repository = repository;
     }
 
-    public async Task<Result<Guid, string>> Handle(
+    public async Task<Result<Guid, Error>> Handle(
         CreateTeamRequest request, 
         CancellationToken cancellationToken = default)
     {
+        
+        
         var teamResult = Team.Create(request.Name);
         if (teamResult.IsFailure)
-            return teamResult.Error;
+            return Errors.General.ValueIsInvalid();
 
         var result = await _repository.Add(teamResult.Value, cancellationToken);
         

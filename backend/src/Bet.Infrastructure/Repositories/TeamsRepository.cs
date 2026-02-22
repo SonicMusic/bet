@@ -1,4 +1,5 @@
 ﻿using Bet.Application;
+using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +24,13 @@ public class TeamsRepository : ITeamsRepository
         return team.Id;
     }
 
-    public async Task<Result<Team, string>> GetById(Guid guid)
+    public async Task<Result<Team, Error>> GetById(Guid guid)
     {
         var team = await _dbContext.Teams
             .FirstOrDefaultAsync(t => t.Id == guid);
 
         if (team is null)
-            return "Team not found";
+            return Errors.General.NotFound(guid);
 
         return team;
     }
