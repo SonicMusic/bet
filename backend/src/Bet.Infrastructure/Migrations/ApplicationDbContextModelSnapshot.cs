@@ -36,6 +36,10 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("home_team_id");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.HasKey("Id")
                         .HasName("pk_games");
 
@@ -58,6 +62,10 @@ namespace Bet.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.HasKey("Id")
                         .HasName("pk_teams");

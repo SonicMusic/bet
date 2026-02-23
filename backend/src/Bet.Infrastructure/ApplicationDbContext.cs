@@ -18,6 +18,8 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             configuration.GetConnectionString(DATABASE));
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+        optionsBuilder.EnableSensitiveDataLogging();
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

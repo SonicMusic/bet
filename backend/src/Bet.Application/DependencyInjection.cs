@@ -1,4 +1,5 @@
 ﻿using Bet.Application.Teams.CreateTeam;
+using Bet.Application.Teams.Delete;
 using Bet.Application.Teams.Update;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<CreateTeamHandler>();
         services.AddScoped<UpdateTeamHandler>();
+        services.AddScoped<DeleteTeamHandler>();
 
         return services;
     }

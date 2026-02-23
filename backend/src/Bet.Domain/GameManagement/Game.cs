@@ -4,6 +4,8 @@ namespace Bet.Domain.GameManagement;
 
 public class Game : Entity
 {
+    private bool _isDeleted = false;
+
     // ef core
     private Game()
     {
@@ -31,5 +33,16 @@ public class Game : Entity
             return Result.Failure<Game>("AwayTeamId can not be empty");
         
         return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
+    }
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+    public void Restore()
+    {
+        if (!_isDeleted) return;
+
+        _isDeleted = false;
     }
 }

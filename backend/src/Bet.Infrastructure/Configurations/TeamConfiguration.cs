@@ -17,6 +17,8 @@ public class TeamConfiguration: IEntityTypeConfiguration<Team>
         builder.Property(t => t.Name)
             .IsRequired();
 
-       
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

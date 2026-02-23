@@ -1,5 +1,6 @@
 ﻿using Bet.API.Extensions;
 using Bet.Application.Teams.CreateTeam;
+using Bet.Application.Teams.Delete;
 using Bet.Application.Teams.Update;
 using Bet.Contracts.Requests.Teams;
 using Microsoft.AspNetCore.Mvc;
@@ -37,12 +38,18 @@ public class TeamsController : ApplicationController
         return Ok(result.Value);
     }
     
-    // [HttpDelete("{guid:guid}")]
-    // public async Task<ActionResult<Guid>> Delete(
-    //     [FromRoute] Guid guid,
-    //     [FromServices] UpdateTeamHandler handler,
-    //     CancellationToken cancellationToken = default)
-    // {
-    //     return Ok();
-    // }
+    [HttpDelete("{guid:guid}")]
+    public async Task<ActionResult<Guid>> Delete(
+        [FromRoute] Guid guid,
+        [FromServices] DeleteTeamHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteTeamCommand(guid);
+        
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+        
+        return Ok(result.Value);
+    }
 }

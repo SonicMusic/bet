@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260218145209_Init")]
+    [Migration("20260223192948_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -39,6 +39,10 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("home_team_id");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.HasKey("Id")
                         .HasName("pk_games");
 
@@ -61,6 +65,10 @@ namespace Bet.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.HasKey("Id")
                         .HasName("pk_teams");

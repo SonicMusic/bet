@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bet.Infrastructure.Configurations;
 
-public class GameConfiguration: IEntityTypeConfiguration<Game>
+public class GameConfiguration : IEntityTypeConfiguration<Game>
 {
     public void Configure(EntityTypeBuilder<Game> builder)
     {
@@ -17,7 +17,7 @@ public class GameConfiguration: IEntityTypeConfiguration<Game>
 
         builder.Property(g => g.HomeTeamId).IsRequired();
         builder.Property(g => g.AwayTeamId).IsRequired();
-        
+
         // FK на Team без навигационных свойств
         builder.HasOne<Team>()
             .WithMany()
@@ -32,5 +32,8 @@ public class GameConfiguration: IEntityTypeConfiguration<Game>
         builder.HasIndex(g => g.HomeTeamId);
         builder.HasIndex(g => g.AwayTeamId);
 
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }
