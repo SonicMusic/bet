@@ -1,5 +1,6 @@
 ﻿using Bet.API.Extensions;
-using Bet.Application.Teams;
+using Bet.Application.Teams.CreateTeam;
+using Bet.Application.Teams.Update;
 using Bet.Contracts.Requests.Teams;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,32 @@ public class TeamsController : ApplicationController
         var result = await handler.Handle(request, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
+    [HttpPut("{guid:guid}")]
+    public async Task<ActionResult<Guid>> Update(
+        [FromRoute] Guid guid,
+        [FromBody] UpdateTeamRequest request,
+        [FromServices] UpdateTeamHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new UpdateTeamCommand(guid, request.Name);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
         
         return Ok(result.Value);
     }
+    
+    // [HttpDelete("{guid:guid}")]
+    // public async Task<ActionResult<Guid>> Delete(
+    //     [FromRoute] Guid guid,
+    //     [FromServices] UpdateTeamHandler handler,
+    //     CancellationToken cancellationToken = default)
+    // {
+    //     return Ok();
+    // }
 }

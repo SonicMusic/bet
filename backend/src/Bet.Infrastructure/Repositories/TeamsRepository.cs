@@ -24,7 +24,7 @@ public class TeamsRepository : ITeamsRepository
         return team.Id;
     }
 
-    public async Task<Result<Team, Error>> GetById(Guid guid)
+    public async Task<Result<Team, Error>> GetById(Guid guid, CancellationToken cancellationToken)
     {
         var team = await _dbContext.Teams
             .FirstOrDefaultAsync(t => t.Id == guid);
@@ -33,5 +33,12 @@ public class TeamsRepository : ITeamsRepository
             return Errors.General.NotFound(guid);
 
         return team;
+    }
+
+    public async Task<Guid> Save(Team team, CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return team.Id;
     }
 }

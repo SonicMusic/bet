@@ -4,7 +4,7 @@ using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
-namespace Bet.Application.Teams;
+namespace Bet.Application.Teams.CreateTeam;
 
 public class CreateTeamHandler
 {

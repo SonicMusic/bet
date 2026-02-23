@@ -7,5 +7,6 @@ namespace Bet.Application;
 public interface ITeamsRepository
 {
     Task<Guid> Add(Team team, CancellationToken cancellationToken);
-    Task<Result<Team, Error>> GetById(Guid guid);
+    Task<Result<Team, Error>> GetById(Guid guid, CancellationToken cancellationToken);
+    Task<Guid> Save(Team team, CancellationToken cancellationToken);
 }
