@@ -1,7 +1,6 @@
 ﻿using Bet.API.Extensions;
-using Bet.Application.Teams.CreateTeam;
-using Bet.Application.Teams.Delete;
-using Bet.Application.Teams.Update;
+using Bet.Application.Teams;
+using Bet.Contracts.Commands.Teams;
 using Bet.Contracts.Requests.Teams;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +14,9 @@ public class TeamsController : ApplicationController
         [FromServices] CreateTeamHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(request, cancellationToken);
+        var command = new CreateTeamCommand(request.Name);
+        
+        var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
 

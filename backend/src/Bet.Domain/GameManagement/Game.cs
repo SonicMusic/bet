@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using Bet.Domain.Shared;
+using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.GameManagement;
 
@@ -19,18 +20,20 @@ public class Game : Entity
         AwayTeamId = awayTeamId;
     }
     
-    public Guid Id { get; private set; }
+    public new Guid Id { get; private set; }
     
     public Guid HomeTeamId { get; private set; }  
     
     public Guid AwayTeamId { get; private set; }
 
-    public static Result<Game> Create(Guid homeTeamId, Guid awayTeamId)
+    public static Result<Game, Error> Create(Guid homeTeamId, Guid awayTeamId)
     {
         if (string.IsNullOrWhiteSpace(homeTeamId.ToString()))
-            return Result.Failure<Game>("HomeTeamId can not be empty"); 
+            return Errors.General.ValueIsRequired(); 
         if (string.IsNullOrWhiteSpace(awayTeamId.ToString()))
-            return Result.Failure<Game>("AwayTeamId can not be empty");
+            return Errors.General.ValueIsRequired();
+        if (homeTeamId == awayTeamId)
+            return Errors.General.AlreadyExist();
         
         return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
     }

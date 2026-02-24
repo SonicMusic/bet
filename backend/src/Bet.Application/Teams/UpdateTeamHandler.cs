@@ -1,9 +1,9 @@
-﻿using Bet.Contracts.Requests.Teams;
+﻿using Bet.Contracts.Commands.Teams;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
-namespace Bet.Application.Teams.Update;
+namespace Bet.Application.Teams;
 
 public class UpdateTeamHandler
 {

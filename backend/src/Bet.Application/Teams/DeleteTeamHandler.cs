@@ -1,9 +1,9 @@
-﻿using Bet.Application.Teams.Update;
+﻿using Bet.Contracts.Commands.Teams;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
-namespace Bet.Application.Teams.Delete;
+namespace Bet.Application.Teams;
 
 public class DeleteTeamHandler
 {

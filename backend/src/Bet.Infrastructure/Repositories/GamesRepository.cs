@@ -1,10 +1,12 @@
-﻿using Bet.Domain.GameManagement;
+﻿using Bet.Application;
+using Bet.Domain.GameManagement;
+using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bet.Infrastructure.Repositories;
 
-public class GamesRepository
+public class GamesRepository : IGamesRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -22,14 +24,21 @@ public class GamesRepository
         return game.Id;
     }
 
-    public async Task<Result<Game, string>> GetById(Guid guid)
+    public async Task<Result<Game, Error>> GetById(Guid guid, CancellationToken cancellationToken)
     {
         var game = await _dbContext.Games
-            .FirstOrDefaultAsync(g => g.Id == guid);
+            .FirstOrDefaultAsync(t => t.Id == guid);
 
         if (game is null)
-            return "Game not found";
+            return Errors.General.NotFound(guid);
 
         return game;
+    }
+
+    public async Task<Guid> Save(Game game, CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return game.Id;
     }
 }

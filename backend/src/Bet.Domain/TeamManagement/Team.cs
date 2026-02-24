@@ -19,7 +19,7 @@ public class Team : Entity
     }
 
     public new Guid Id { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get; private set; } = default!;
 
     public static Result<Team, Error> Create(string name)
     {
