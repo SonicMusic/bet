@@ -38,4 +38,19 @@ public class GamesController : ApplicationController
 
         return Ok(result.Value);
     }
+
+    [HttpDelete("{guid:guid}")]
+    public async Task<ActionResult<Guid>> Delete(
+        [FromRoute] Guid guid,
+        [FromServices] DeleteGameHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteGameCommand(guid);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 }
