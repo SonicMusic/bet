@@ -37,6 +37,21 @@ public class Game : Entity
         
         return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
     }
+
+    public UnitResult<Error> Update(Guid homeTeamId, Guid awayTeamId)
+    {
+        if (string.IsNullOrWhiteSpace(homeTeamId.ToString()))
+            return Errors.General.ValueIsRequired(); 
+        if (string.IsNullOrWhiteSpace(awayTeamId.ToString()))
+            return Errors.General.ValueIsRequired();
+        if (homeTeamId == awayTeamId)
+            return Errors.General.AlreadyExist();
+
+        HomeTeamId = homeTeamId;
+        AwayTeamId = awayTeamId;
+        
+        return UnitResult.Success<Error>();
+    }
     public void Delete()
     {
         if (_isDeleted == false)

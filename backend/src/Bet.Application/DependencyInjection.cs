@@ -13,7 +13,7 @@ public static class DependencyInjection
         services.AddScoped<DeleteTeamHandler>();
 
         services.AddScoped<CreateGameHandler>();
-        // services.AddScoped<UpdateGameHandler>();
+        services.AddScoped<UpdateGameHandler>();
         // services.AddScoped<DeleteGameHandler>();
 
 

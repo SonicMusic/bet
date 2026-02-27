@@ -22,4 +22,20 @@ public class GamesController : ApplicationController
 
         return Ok(result.Value);
     }
+
+    [HttpPut("{guid:guid}")]
+    public async Task<ActionResult<Guid>> Update(
+        [FromRoute] Guid guid,
+        [FromBody] UpdateGameRequest request,
+        [FromServices] UpdateGameHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new UpdateGameCommand(guid, request.HomeTeamId, request.AwayTeamId);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 }
