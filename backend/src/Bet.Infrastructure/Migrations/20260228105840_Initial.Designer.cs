@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260223192948_Init")]
-    partial class Init
+    [Migration("20260228105840_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,21 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<int>("AwayTeamGoals")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("away_team_goals");
+
                     b.Property<Guid>("AwayTeamId")
                         .HasColumnType("uuid")
                         .HasColumnName("away_team_id");
+
+                    b.Property<int>("HomeTeamGoals")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("home_team_goals");
 
                     b.Property<Guid>("HomeTeamId")
                         .HasColumnType("uuid")
@@ -53,6 +65,41 @@ namespace Bet.Infrastructure.Migrations
                         .HasDatabaseName("ix_games_home_team_id");
 
                     b.ToTable("games", (string)null);
+                });
+
+            modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("AwayTeamGoals")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("away_team_goals");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("game_id");
+
+                    b.Property<int>("HomeTeamGoals")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("home_team_goals");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.HasKey("Id")
+                        .HasName("pk_predictions");
+
+                    b.HasIndex("GameId")
+                        .HasDatabaseName("ix_predictions_game_id");
+
+                    b.ToTable("predictions", (string)null);
                 });
 
             modelBuilder.Entity("Bet.Domain.TeamManagement.Team", b =>
@@ -91,6 +138,16 @@ namespace Bet.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_games_teams_home_team_id");
+                });
+
+            modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
+                {
+                    b.HasOne("Bet.Domain.GameManagement.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_predictions_games_game_id");
                 });
 #pragma warning restore 612, 618
         }

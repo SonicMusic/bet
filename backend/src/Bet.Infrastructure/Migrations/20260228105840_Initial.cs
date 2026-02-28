@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bet.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,8 @@ namespace Bet.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     away_team_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -50,6 +52,27 @@ namespace Bet.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "predictions",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    game_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_predictions", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_predictions_games_game_id",
+                        column: x => x.game_id,
+                        principalTable: "games",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_games_away_team_id",
                 table: "games",
@@ -59,11 +82,19 @@ namespace Bet.Infrastructure.Migrations
                 name: "ix_games_home_team_id",
                 table: "games",
                 column: "home_team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_predictions_game_id",
+                table: "predictions",
+                column: "game_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "predictions");
+
             migrationBuilder.DropTable(
                 name: "games");
 

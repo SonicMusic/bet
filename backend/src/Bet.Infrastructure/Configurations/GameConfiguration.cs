@@ -12,8 +12,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.ToTable("games");
 
         builder.HasKey(g => g.Id);
-        builder.Property(g => g.Id)
-            .ValueGeneratedNever(); // Id генерируется доменом
+        builder.Property(g => g.Id).ValueGeneratedNever(); // Id генерируется доменом
 
         builder.Property(g => g.HomeTeamId).IsRequired();
         builder.Property(g => g.AwayTeamId).IsRequired();
@@ -35,5 +34,8 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");
+        
+        builder.Property(g => g.HomeTeamGoals).IsRequired().HasDefaultValue(0);
+        builder.Property(g => g.AwayTeamGoals).IsRequired().HasDefaultValue(0);
     }
 }

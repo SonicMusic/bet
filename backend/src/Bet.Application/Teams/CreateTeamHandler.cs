@@ -1,5 +1,4 @@
 ﻿using Bet.Contracts.Commands.Teams;
-using Bet.Contracts.Requests.Teams;
 using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;

@@ -11,6 +11,7 @@ public static class DependencyInjection
         services.AddScoped<ApplicationDbContext>();
         services.AddScoped<ITeamsRepository, TeamsRepository>();
         services.AddScoped<IGamesRepository, GamesRepository>();
+        services.AddScoped<IPredictionsRepository, PredictionsRepository>();
 
         return services;
     }

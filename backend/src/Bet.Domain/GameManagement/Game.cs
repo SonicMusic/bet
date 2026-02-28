@@ -23,8 +23,9 @@ public class Game : Entity
     public new Guid Id { get; private set; }
     
     public Guid HomeTeamId { get; private set; }  
-    
     public Guid AwayTeamId { get; private set; }
+    public int HomeTeamGoals { get; private set; } = default;
+    public int AwayTeamGoals { get; private set; } = default;
 
     public static Result<Game, Error> Create(Guid homeTeamId, Guid awayTeamId)
     {
