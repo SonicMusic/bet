@@ -24,7 +24,10 @@ public class Prediction : Entity
     public int HomeTeamGoals { get; private set; } = default;
     public int AwayTeamGoals { get; private set; } = default;
 
-    public static Result<Prediction, Error> Create(Guid gameId, int homeTeamGoals, int awayTeamGoals)
+    public static Result<Prediction, Error> Create(
+        Guid gameId, 
+        int homeTeamGoals, 
+        int awayTeamGoals)
     {
         if(string.IsNullOrWhiteSpace(gameId.ToString()))
             return Errors.General.ValueIsRequired();

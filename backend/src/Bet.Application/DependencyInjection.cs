@@ -1,4 +1,5 @@
 ﻿using Bet.Application.Games;
+using Bet.Application.Predictions;
 using Bet.Application.Teams;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,10 @@ public static class DependencyInjection
         services.AddScoped<CreateGameHandler>();
         services.AddScoped<UpdateGameHandler>();
         services.AddScoped<DeleteGameHandler>();
+        
+        services.AddScoped<CreatePredictionHandler>();
+        // services.AddScoped<UpdateGameHandler>();
+        // services.AddScoped<DeleteGameHandler>();
 
 
         return services;

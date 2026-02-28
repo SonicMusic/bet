@@ -29,7 +29,7 @@ public class CreateGameHandler
 
         var game = await _repository.Add(gameResult.Value, cancellationToken);
 
-        _logger.LogInformation("Created game id {result}", game);
+        _logger.LogInformation("Created game id {game}", game);
 
         return game;
     }
