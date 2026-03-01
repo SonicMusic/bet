@@ -2,7 +2,7 @@
 
 public class Constants
 {
-    public static class Default
+    public static class General
     {
         public const int MAX_LOW_TEXT_LENGTH = 100;
 

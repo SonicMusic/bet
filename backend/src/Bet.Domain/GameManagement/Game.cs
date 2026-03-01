@@ -26,6 +26,8 @@ public class Game : Entity
     public Guid AwayTeamId { get; private set; }
     public int HomeTeamGoals { get; private set; } = default;
     public int AwayTeamGoals { get; private set; } = default;
+    public StatusGame Status { get; private set; } = StatusGame.NotStarted;
+    public DateTimeOffset Start { get; private set; } = DateTimeOffset.MaxValue;
 
     public static Result<Game, Error> Create(Guid homeTeamId, Guid awayTeamId)
     {
@@ -50,6 +52,20 @@ public class Game : Entity
 
         HomeTeamId = homeTeamId;
         AwayTeamId = awayTeamId;
+        
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetStatus(StatusGame statusGame)
+    {
+        Status = statusGame;
+        
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetStart(DateTimeOffset dateTimeOffset)
+    {
+        Start = dateTimeOffset;
         
         return UnitResult.Success<Error>();
     }

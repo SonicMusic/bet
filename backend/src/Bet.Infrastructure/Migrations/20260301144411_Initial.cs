@@ -16,7 +16,10 @@ namespace Bet.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    short_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    logo = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -33,6 +36,8 @@ namespace Bet.Infrastructure.Migrations
                     away_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    status = table.Column<string>(type: "text", nullable: false, defaultValue: "NotStarted"),
+                    start = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -60,6 +65,7 @@ namespace Bet.Infrastructure.Migrations
                     game_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    status = table.Column<string>(type: "text", nullable: false, defaultValue: "Pending"),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>

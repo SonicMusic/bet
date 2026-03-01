@@ -1,4 +1,5 @@
-﻿using Bet.Domain.GameManagement;
+using Bet.Domain.GameManagement;
+using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -37,5 +38,12 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         
         builder.Property(g => g.HomeTeamGoals).IsRequired().HasDefaultValue(0);
         builder.Property(g => g.AwayTeamGoals).IsRequired().HasDefaultValue(0);
+
+        builder.Property(g => g.Status)
+            .HasConversion<string>()
+            .HasDefaultValue(StatusGame.NotStarted);
+
+        builder.Property(g => g.Start)
+            .IsRequired();
     }
 }

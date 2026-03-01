@@ -27,5 +27,9 @@ public class PredictionConfiguration : IEntityTypeConfiguration<Prediction>
 
         builder.Property(p => p.HomeTeamGoals).IsRequired().HasDefaultValue(0);
         builder.Property(p => p.AwayTeamGoals).IsRequired().HasDefaultValue(0);
+
+        builder.Property(p => p.Status)
+            .HasConversion<string>()
+            .HasDefaultValue(StatusPrediction.Pending);
     }
 }

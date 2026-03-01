@@ -23,6 +23,7 @@ public class Prediction : Entity
     public Guid GameId { get; private set; }
     public int HomeTeamGoals { get; private set; } = default;
     public int AwayTeamGoals { get; private set; } = default;
+    public StatusPrediction Status { get; private set; } = StatusPrediction.Pending;
 
     public static Result<Prediction, Error> Create(
         Guid gameId, 
@@ -37,5 +38,12 @@ public class Prediction : Entity
 
         var predictionId = Guid.NewGuid();
         return new Prediction(predictionId, gameId, homeTeamGoals, awayTeamGoals);
+    }
+
+    public UnitResult<Error> SetStatus(StatusPrediction statusPrediction)
+    {
+        Status = statusPrediction;
+        
+        return UnitResult.Success<Error>();
     }
 }
