@@ -32,7 +32,8 @@ public class UpdateTeamHandler
 
         await _repository.Save(teamResult.Value, cancellationToken);
 
-        _logger.LogInformation("Update team {name} with id {result}", command.Name, teamResult.Value.Id);
+        _logger.LogInformation("Update team {name} with id {result}",
+            command.Name, teamResult.Value.Id);
 
         return teamResult.Value.Id;
     }

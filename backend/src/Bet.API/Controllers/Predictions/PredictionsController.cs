@@ -8,7 +8,7 @@ namespace Bet.API.Controllers.Predictions;
 
 public class PredictionsController : ApplicationController
 {
-    [HttpPost("games/{gameId}")]
+    [HttpPost("games/{gameId:guid}")]
     public async Task<ActionResult<Guid>> Create(
         [FromRoute] Guid gameId,
         [FromBody] CreatePredictionRequest request,
@@ -24,34 +24,19 @@ public class PredictionsController : ApplicationController
         return Ok(prediction.Value);
     }
 
-    // [HttpPut("{guid:guid}")]
-    // public async Task<ActionResult<Guid>> Update(
-    //     [FromRoute] Guid guid,
-    //     [FromBody] UpdateGameRequest request,
-    //     [FromServices] UpdateGameHandler handler,
-    //     CancellationToken cancellationToken = default)
-    // {
-    //     var command = new UpdateGameCommand(guid, request.HomeTeamId, request.AwayTeamId);
-    //
-    //     var result = await handler.Handle(command, cancellationToken);
-    //     if (result.IsFailure)
-    //         return result.Error.ToResponse();
-    //
-    //     return Ok(result.Value);
-    // }
-    //
-    // [HttpDelete("{guid:guid}")]
-    // public async Task<ActionResult<Guid>> Delete(
-    //     [FromRoute] Guid guid,
-    //     [FromServices] DeleteGameHandler handler,
-    //     CancellationToken cancellationToken = default)
-    // {
-    //     var command = new DeleteGameCommand(guid);
-    //
-    //     var result = await handler.Handle(command, cancellationToken);
-    //     if (result.IsFailure)
-    //         return result.Error.ToResponse();
-    //
-    //     return Ok(result.Value);
-    // }
+    [HttpPut("{predictionId:guid}")]
+    public async Task<ActionResult<Guid>> Create(
+        [FromRoute] Guid predictionId,
+        [FromBody] UpdateStatusPredictionRequest request,
+        [FromServices] UpdateStatusPredictionHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new UpdateStatusPredictionCommand(predictionId, request.Status);
+
+        var prediction = await handler.Handle(command, cancellationToken);
+        if (prediction.IsFailure)
+            return prediction.Error.ToResponse();
+
+        return Ok(prediction.Value);
+    }
 }
