@@ -27,7 +27,7 @@ builder.Services.AddSerilog();
 
 builder.Services
     .AddAplication()
-    .AddInfrastructure();
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
