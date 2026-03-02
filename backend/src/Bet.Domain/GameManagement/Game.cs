@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.GameManagement;
 
-public class Game : Entity
+public class Game : Entity, IIsDeletedField
 {
     private bool _isDeleted = false;
 

@@ -31,5 +31,9 @@ public class PredictionConfiguration : IEntityTypeConfiguration<Prediction>
         builder.Property(p => p.Status)
             .HasConversion<string>()
             .HasDefaultValue(StatusPrediction.Pending);
+        
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

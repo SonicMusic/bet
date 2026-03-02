@@ -3,12 +3,13 @@ using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.PredictionManagement;
 
-public class Prediction : Entity
+public class Prediction : Entity, IIsDeletedField
 {
+    private bool _isDeleted = false;
+
     // ef core
     private Prediction()
     {
-        
     }
 
     private Prediction(Guid predictionId, Guid gameId, int homeTeamGoals, int awayTeamGoals)
@@ -18,7 +19,7 @@ public class Prediction : Entity
         HomeTeamGoals = homeTeamGoals;
         AwayTeamGoals = awayTeamGoals;
     }
-    
+
     public new Guid Id { get; private set; }
     public Guid GameId { get; private set; }
     public int HomeTeamGoals { get; private set; } = default;
@@ -26,13 +27,13 @@ public class Prediction : Entity
     public StatusPrediction Status { get; private set; } = StatusPrediction.Pending;
 
     public static Result<Prediction, Error> Create(
-        Guid gameId, 
-        int homeTeamGoals, 
+        Guid gameId,
+        int homeTeamGoals,
         int awayTeamGoals)
     {
-        if(string.IsNullOrWhiteSpace(gameId.ToString()))
+        if (string.IsNullOrWhiteSpace(gameId.ToString()))
             return Errors.General.ValueIsRequired();
-        
+
         if (homeTeamGoals < 0 || awayTeamGoals < 0)
             return Errors.General.ValueIsInvalid();
 
@@ -43,7 +44,20 @@ public class Prediction : Entity
     public UnitResult<Error> SetStatus(StatusPrediction statusPrediction)
     {
         Status = statusPrediction;
-        
+
         return UnitResult.Success<Error>();
+    }
+
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        if (!_isDeleted) return;
+
+        _isDeleted = false;
     }
 }

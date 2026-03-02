@@ -19,7 +19,7 @@ public static class DependencyInjection
         
         services.AddScoped<CreatePredictionHandler>();
         services.AddScoped<UpdateStatusPredictionHandler>();
-        // services.AddScoped<DeleteGameHandler>();
+        services.AddScoped<DeletePredictionHandler>();
 
 
         return services;
