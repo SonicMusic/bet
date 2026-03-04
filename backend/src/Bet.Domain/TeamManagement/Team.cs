@@ -42,7 +42,18 @@ public class Team : Entity, IIsDeletedField
         
         return UnitResult.Success<Error>();
     }
-    public UnitResult<Error> UpdateInfo(string? shortName, string? country, string? logo)
+    public UnitResult<Error> UpdateLogo(string? logo)
+    {
+        if (logo != null &&
+            (string.IsNullOrWhiteSpace(logo) || logo.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
+            return Errors.General.ValueIsInvalid(nameof(Team));
+
+        if (logo != null)
+            Logo = logo.Trim();
+
+        return UnitResult.Success<Error>();
+    }
+    public UnitResult<Error> UpdateInfo(string? shortName, string? country)
     {
         if (shortName != null &&
             (string.IsNullOrWhiteSpace(shortName) || shortName.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
@@ -52,16 +63,10 @@ public class Team : Entity, IIsDeletedField
             (string.IsNullOrWhiteSpace(country) || country.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
             return Errors.General.ValueIsInvalid(nameof(Team));
 
-        if (logo != null &&
-            (string.IsNullOrWhiteSpace(logo) || logo.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
-            return Errors.General.ValueIsInvalid(nameof(Team));
-
         if (shortName != null)
             ShortName = shortName.Trim();
         if (country != null)
             Country = country.Trim();
-        if (logo != null)
-            Logo = logo.Trim();
 
         return UnitResult.Success<Error>();
     }

@@ -1,4 +1,4 @@
-﻿namespace Bet.Infrastructure;
+﻿namespace Bet.Infrastructure.Options;
 
 public class MinioOptions
 {

@@ -53,4 +53,22 @@ public class TeamsController : ApplicationController
         
         return Ok(result.Value);
     }
+
+    [HttpPost("logo/{guid:guid}")]
+    public async Task<ActionResult<Guid>> UploadLogoTeam(
+        [FromRoute] Guid guid,
+        IFormFile file,
+        [FromServices] UploadLogoTeamHandler handler, 
+        CancellationToken cancellationToken)
+    {
+        await using var stream = file.OpenReadStream();
+
+        var command = new UploadLogoTeamCommand(guid, stream);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 }
