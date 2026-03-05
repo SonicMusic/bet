@@ -32,13 +32,18 @@ public class TeamsController : ApplicationController
     [HttpPut("{guid:guid}")]
     public async Task<ActionResult<Guid>> UpdateName(
         [FromRoute] Guid guid,
-        [FromBody] UpdateTeamRequest request,
-        [FromServices] UpdateTeamNameHandler nameHandler,
+        [FromBody] UpdateTeamNameRequest request,
+        [FromServices] UpdateTeamNameRequestValidator validator,
+        [FromServices] UpdateTeamNameHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var command = new UpdateTeamCommand(guid, request.Name);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new UpdateTeamNameCommand(guid, request.Name.Trim());
 
-        var result = await nameHandler.Handle(command, cancellationToken);
+        var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
         

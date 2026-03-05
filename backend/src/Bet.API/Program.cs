@@ -1,3 +1,4 @@
+using Bet.API;
 using Bet.API.Middlewares;
 using Bet.Application;
 using Bet.Infrastructure;
@@ -17,15 +18,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddSerilog();
-
 builder.Services
+    .AddAPI()
     .AddAplication()
     .AddInfrastructure(builder.Configuration);
 

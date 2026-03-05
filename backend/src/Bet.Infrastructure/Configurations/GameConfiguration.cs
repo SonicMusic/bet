@@ -1,5 +1,4 @@
 using Bet.Domain.GameManagement;
-using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace Bet.API.Validators.Team;
 
-public class CreateTeamRequestValidator : AbstractValidator<CreateTeamRequest>
+public class UpdateTeamNameRequestValidator : AbstractValidator<UpdateTeamNameRequest>
 {
-    public CreateTeamRequestValidator()
+    public UpdateTeamNameRequestValidator()
     {
-        RuleFor(c => c.Name)
+        RuleFor(u => u.Name)
             .NotEmpty()
             .MaximumLength(Constants.Team.MAX_NAME_LENGTH)
             .MinimumLength(Constants.Team.SHORT_NAME_LENGTH);

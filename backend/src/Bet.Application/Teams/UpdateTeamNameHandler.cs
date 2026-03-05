@@ -20,21 +20,21 @@ public class UpdateTeamNameHandler
     }
 
     public async Task<Result<Guid, Error>> Handle(
-        UpdateTeamCommand command,
+        UpdateTeamNameCommand сommand,
         CancellationToken cancellationToken = default)
     {
-        var teamResult = await _repository.GetById(command.Id, cancellationToken);
+        var teamResult = await _repository.GetById(сommand.Id, cancellationToken);
         if (teamResult.IsFailure)
             return teamResult.Error;
 
-        var team = teamResult.Value.UpdateName(command.Name);
+        var team = teamResult.Value.UpdateName(сommand.Name);
         if (team.IsFailure)
             return team.Error;
 
         await _repository.Save(teamResult.Value, cancellationToken);
 
         _logger.LogInformation("Update team {name} with id {result}",
-            command.Name, teamResult.Value.Id);
+            сommand.Name, teamResult.Value.Id);
 
         return teamResult.Value.Id;
     }

@@ -27,7 +27,9 @@ public class Team : Entity, IIsDeletedField
 
     public static Result<Team, Error> Create(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length > Constants.General.MAX_LOW_TEXT_LENGTH)
+        if (string.IsNullOrWhiteSpace(name) || 
+            name.Length > Constants.Team.MAX_NAME_LENGTH ||
+            name.Length < Constants.Team.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Team));
 
         return new Team(Guid.NewGuid(), name);
@@ -35,7 +37,9 @@ public class Team : Entity, IIsDeletedField
 
     public UnitResult<Error> UpdateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length > Constants.General.MAX_LOW_TEXT_LENGTH)
+        if (string.IsNullOrWhiteSpace(name) || 
+            name.Length > Constants.Team.MAX_NAME_LENGTH ||
+            name.Length < Constants.Team.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Team));
         
         Name = name.Trim();
@@ -49,11 +53,11 @@ public class Team : Entity, IIsDeletedField
     public UnitResult<Error> UpdateInfo(string? shortName, string? country)
     {
         if (shortName != null &&
-            (string.IsNullOrWhiteSpace(shortName) || shortName.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
+            (string.IsNullOrWhiteSpace(shortName) || shortName.Length > Constants.Team.MAX_NAME_LENGTH))
             return Errors.General.ValueIsInvalid(nameof(Team));
 
         if (country != null &&
-            (string.IsNullOrWhiteSpace(country) || country.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
+            (string.IsNullOrWhiteSpace(country) || country.Length > Constants.Team.MAX_NAME_LENGTH))
             return Errors.General.ValueIsInvalid(nameof(Team));
 
         if (shortName != null)
