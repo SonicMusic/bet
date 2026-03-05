@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260302161843_Initial")]
+    [Migration("20260304221417_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -131,9 +131,10 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("country");
 
-                    b.Property<string>("Logo")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                    b.Property<bool>("Logo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
                         .HasColumnName("logo");
 
                     b.Property<string>("Name")

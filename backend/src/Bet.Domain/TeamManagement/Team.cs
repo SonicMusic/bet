@@ -23,7 +23,7 @@ public class Team : Entity, IIsDeletedField
     public string Name { get; private set; } = default!;
     public string? ShortName { get; private set; }
     public string? Country { get; private set; }
-    public string? Logo { get; private set; }
+    public bool Logo { get; private set; } = false;
 
     public static Result<Team, Error> Create(string name)
     {
@@ -42,16 +42,9 @@ public class Team : Entity, IIsDeletedField
         
         return UnitResult.Success<Error>();
     }
-    public UnitResult<Error> UpdateLogo(string? logo)
+    public void UploadLogo()
     {
-        if (logo != null &&
-            (string.IsNullOrWhiteSpace(logo) || logo.Length > Constants.General.MAX_LOW_TEXT_LENGTH))
-            return Errors.General.ValueIsInvalid(nameof(Team));
-
-        if (logo != null)
-            Logo = logo.Trim();
-
-        return UnitResult.Success<Error>();
+        Logo = true;
     }
     public UnitResult<Error> UpdateInfo(string? shortName, string? country)
     {

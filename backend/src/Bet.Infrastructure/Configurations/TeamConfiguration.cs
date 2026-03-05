@@ -27,9 +27,7 @@ public class TeamConfiguration: IEntityTypeConfiguration<Team>
             .HasMaxLength(Constants.General.MAX_LOW_TEXT_LENGTH)
             .IsRequired(false);
         
-        builder.Property(t => t.Logo)
-            .HasMaxLength(Constants.General.MAX_LOW_TEXT_LENGTH)
-            .IsRequired(false);
+        builder.Property(t => t.Logo).HasDefaultValue(false);
         
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

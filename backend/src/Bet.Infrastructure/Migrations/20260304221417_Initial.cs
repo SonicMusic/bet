@@ -19,7 +19,7 @@ namespace Bet.Infrastructure.Migrations
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     short_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    logo = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    logo = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>

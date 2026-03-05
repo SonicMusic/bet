@@ -37,6 +37,8 @@ public class MinioProvider : IMinioProvider
                 _logger.LogInformation("Make bucket {0} in minio", Constants.Team.LOGO);
             }
 
+            var objectName = command.TeamId + Constants.Team.JPG;
+            
             var putObjectArgs = new PutObjectArgs()
                 .WithBucket(Constants.Team.LOGO)
                 .WithObject(command.TeamId.ToString())

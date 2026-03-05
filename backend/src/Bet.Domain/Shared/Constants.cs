@@ -11,5 +11,6 @@ public class Constants
     public static class Team
     {
         public const string LOGO = "logo";
+        public const string JPG = ".jpg";
     }
 }

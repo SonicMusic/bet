@@ -54,7 +54,7 @@ public class TeamsController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpPost("logo/{guid:guid}")]
+    [HttpPost("{guid:guid}/logo")]
     public async Task<ActionResult<Guid>> UploadLogoTeam(
         [FromRoute] Guid guid,
         IFormFile file,

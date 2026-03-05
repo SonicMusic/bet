@@ -128,9 +128,10 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("country");
 
-                    b.Property<string>("Logo")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                    b.Property<bool>("Logo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
                         .HasColumnName("logo");
 
                     b.Property<string>("Name")

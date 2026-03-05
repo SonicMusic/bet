@@ -19,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IGamesRepository, GamesRepository>();
         services.AddScoped<IPredictionsRepository, PredictionsRepository>();
         services.AddScoped<IMinioProvider, MinioProvider>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddMinio(configuration);
 

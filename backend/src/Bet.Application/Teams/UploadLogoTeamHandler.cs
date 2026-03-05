@@ -33,9 +33,7 @@ public class UploadLogoTeamHandler
         if (uploadToMinio.IsFailure)
             return uploadToMinio.Error;
 
-        var updateLogo =  teamFromDb.Value.UpdateLogo(command.TeamId.ToString());
-        if (updateLogo.IsFailure)
-            return updateLogo.Error;
+        teamFromDb.Value.UploadLogo();
 
         var result = await _repository.Save(teamFromDb.Value, cancellationToken);
         
