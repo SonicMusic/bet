@@ -1,4 +1,4 @@
-﻿using Bet.Application;
+﻿using Bet.Application.IoC;
 using Bet.Domain.PredictionManagement;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;

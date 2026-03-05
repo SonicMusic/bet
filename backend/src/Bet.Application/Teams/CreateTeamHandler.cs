@@ -1,4 +1,5 @@
-﻿using Bet.Contracts.Commands.Teams;
+﻿using Bet.Application.IoC;
+using Bet.Contracts.Commands.Teams;
 using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
@@ -23,13 +24,17 @@ public class CreateTeamHandler
         CreateTeamCommand command,
         CancellationToken cancellationToken = default)
     {
+        var teamFromDb = await _repository.GetByName(command.Name, cancellationToken);
+        if (teamFromDb.IsFailure is false)
+            return Errors.General.AlreadyExist();
+        
         var teamResult = Team.Create(command.Name);
         if (teamResult.IsFailure)
             return Errors.General.ValueIsInvalid();
 
         var team = await _repository.Add(teamResult.Value, cancellationToken);
 
-        _logger.LogInformation("Created team {name} with id {result}", command.Name, team);
+        _logger.LogInformation("Created team {name} with id {team}", command.Name, team);
 
         return team;
     }

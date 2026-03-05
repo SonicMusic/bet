@@ -1,4 +1,5 @@
 ﻿using Bet.API.Extensions;
+using Bet.API.Validators.Team;
 using Bet.Application.Teams;
 using Bet.Contracts.Commands.Teams;
 using Bet.Contracts.Requests.Teams;
@@ -12,9 +13,14 @@ public class TeamsController : ApplicationController
     public async Task<ActionResult<Guid>> Create(
         [FromBody] CreateTeamRequest request,
         [FromServices] CreateTeamHandler handler,
+        [FromServices] CreateTeamRequestValidator validator,
         CancellationToken cancellationToken = default)
     {
-        var command = new CreateTeamCommand(request.Name);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new CreateTeamCommand(request.Name.Trim());
         
         var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)
@@ -24,15 +30,15 @@ public class TeamsController : ApplicationController
     }
 
     [HttpPut("{guid:guid}")]
-    public async Task<ActionResult<Guid>> Update(
+    public async Task<ActionResult<Guid>> UpdateName(
         [FromRoute] Guid guid,
         [FromBody] UpdateTeamRequest request,
-        [FromServices] UpdateTeamHandler handler,
+        [FromServices] UpdateTeamNameHandler nameHandler,
         CancellationToken cancellationToken = default)
     {
         var command = new UpdateTeamCommand(guid, request.Name);
 
-        var result = await handler.Handle(command, cancellationToken);
+        var result = await nameHandler.Handle(command, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
         
@@ -55,10 +61,10 @@ public class TeamsController : ApplicationController
     }
 
     [HttpPost("{guid:guid}/logo")]
-    public async Task<ActionResult<Guid>> UploadLogoTeam(
+    public async Task<ActionResult<Guid>> UploadTeamLogo(
         [FromRoute] Guid guid,
         IFormFile file,
-        [FromServices] UploadLogoTeamHandler handler, 
+        [FromServices] UploadTeamLogoHandler handler, 
         CancellationToken cancellationToken)
     {
         await using var stream = file.OpenReadStream();

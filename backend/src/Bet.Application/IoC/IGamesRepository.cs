@@ -2,7 +2,7 @@
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 
-namespace Bet.Application;
+namespace Bet.Application.IoC;
 
 public interface IGamesRepository
 {

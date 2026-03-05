@@ -1,6 +1,8 @@
 ﻿using Bet.API.Extensions;
 using Bet.Application.Games;
+using Bet.Application.Teams;
 using Bet.Contracts.Commands.Games;
+using Bet.Contracts.Commands.Teams;
 using Bet.Contracts.Requests.Games;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +13,25 @@ public class GamesController : ApplicationController
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(
         [FromBody] CreateGameRequest request,
-        [FromServices] CreateGameHandler handler,
+        [FromServices] GetTeamByNameHandler getTeamByNameHandler,
+        [FromServices] CreateGameHandler createGameHandler,
         CancellationToken cancellationToken = default)
     {
-        var command = new CreateGameCommand(request.HomeTeamId, request.AwayTeamId);
+        var homeTeamId = await getTeamByNameHandler.Handle(
+            new GetTeamByNameCommand(request.HomeTeam.Trim().ToLowerInvariant()), 
+            cancellationToken);
+        if (homeTeamId.IsFailure)
+            return homeTeamId.Error.ToResponse();
         
-        var result = await handler.Handle(command, cancellationToken);
+        var awayTeamId = await getTeamByNameHandler.Handle(
+            new GetTeamByNameCommand(request.AwayTeam.Trim().ToLowerInvariant()), 
+            cancellationToken);
+        if (awayTeamId.IsFailure)
+            return awayTeamId.Error.ToResponse();
+        
+        var command = new CreateGameCommand(homeTeamId.Value, awayTeamId.Value);
+        
+        var result = await createGameHandler.Handle(command, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
 

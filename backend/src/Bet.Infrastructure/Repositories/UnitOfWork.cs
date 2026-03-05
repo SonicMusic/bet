@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using Bet.Application;
+using Bet.Application.IoC;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Bet.Infrastructure;
+namespace Bet.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {

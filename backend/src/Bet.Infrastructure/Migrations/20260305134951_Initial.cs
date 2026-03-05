@@ -16,9 +16,9 @@ namespace Bet.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    short_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    short_name = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: true),
+                    country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     logo = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -93,6 +93,12 @@ namespace Bet.Infrastructure.Migrations
                 name: "ix_predictions_game_id",
                 table: "predictions",
                 column: "game_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_teams_name",
+                table: "teams",
+                column: "name",
+                unique: true);
         }
 
         /// <inheritdoc />

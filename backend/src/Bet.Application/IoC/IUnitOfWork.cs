@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace Bet.Application;
+namespace Bet.Application.IoC;
 
 public interface IUnitOfWork
 {

@@ -1,4 +1,5 @@
-﻿using Bet.Contracts.Commands.Predictions;
+﻿using Bet.Application.IoC;
+using Bet.Contracts.Commands.Predictions;
 using Bet.Domain.PredictionManagement;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;

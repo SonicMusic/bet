@@ -1,4 +1,4 @@
-﻿using Bet.Application;
+﻿using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
@@ -27,11 +27,21 @@ public class TeamsRepository : ITeamsRepository
     public async Task<Result<Team, Error>> GetById(Guid guid, CancellationToken cancellationToken)
     {
         var team = await _dbContext.Teams
-            .FirstOrDefaultAsync(t => t.Id == guid);
+            .FirstOrDefaultAsync(t => t.Id == guid, cancellationToken);
 
         if (team is null)
             return Errors.General.NotFound(guid);
 
+        return team;
+    }
+    public async Task<Result<Team, Error>> GetByName(string name, CancellationToken cancellationToken)
+    {
+        var team = await _dbContext.Teams
+            .FirstOrDefaultAsync(t => t.Name == name, cancellationToken);
+        
+        if (team is null)
+            return Errors.General.NotFound();
+        
         return team;
     }
 

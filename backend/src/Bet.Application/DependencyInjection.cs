@@ -10,9 +10,10 @@ public static class DependencyInjection
     public static IServiceCollection AddAplication(this IServiceCollection services)
     {
         services.AddScoped<CreateTeamHandler>();
-        services.AddScoped<UpdateTeamHandler>();
+        services.AddScoped<UpdateTeamNameHandler>();
         services.AddScoped<DeleteTeamHandler>();
-        services.AddScoped<UploadLogoTeamHandler>();
+        services.AddScoped<UploadTeamLogoHandler>();
+        services.AddScoped<GetTeamByNameHandler>();
 
         services.AddScoped<CreateGameHandler>();
         services.AddScoped<UpdateGameHandler>();

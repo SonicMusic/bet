@@ -124,8 +124,8 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Country")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("country");
 
                     b.Property<bool>("Logo")
@@ -136,13 +136,13 @@ namespace Bet.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("name");
 
                     b.Property<string>("ShortName")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)")
                         .HasColumnName("short_name");
 
                     b.Property<bool>("_isDeleted")
@@ -151,6 +151,10 @@ namespace Bet.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_teams");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_teams_name");
 
                     b.ToTable("teams", (string)null);
                 });

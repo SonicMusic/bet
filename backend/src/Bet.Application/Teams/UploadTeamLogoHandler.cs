@@ -1,20 +1,21 @@
-﻿using Bet.Contracts.Commands.Teams;
+﻿using Bet.Application.IoC;
+using Bet.Contracts.Commands.Teams;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Teams;
 
-public class UploadLogoTeamHandler
+public class UploadTeamLogoHandler
 {
     private readonly IMinioProvider _provider;
     private readonly ITeamsRepository _repository;
-    private readonly ILogger<UploadLogoTeamHandler> _logger;
+    private readonly ILogger<UploadTeamLogoHandler> _logger;
 
-    public UploadLogoTeamHandler(
+    public UploadTeamLogoHandler(
         IMinioProvider provider,
         ITeamsRepository repository,
-        ILogger<UploadLogoTeamHandler> logger)
+        ILogger<UploadTeamLogoHandler> logger)
     {
         _provider = provider;
         _repository = repository;

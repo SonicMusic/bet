@@ -1,18 +1,19 @@
-﻿using Bet.Contracts.Commands.Teams;
+﻿using Bet.Application.IoC;
+using Bet.Contracts.Commands.Teams;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Teams;
 
-public class UpdateTeamHandler
+public class UpdateTeamNameHandler
 {
     private readonly ITeamsRepository _repository;
-    private readonly ILogger<UpdateTeamHandler> _logger;
+    private readonly ILogger<UpdateTeamNameHandler> _logger;
 
-    public UpdateTeamHandler(
+    public UpdateTeamNameHandler(
         ITeamsRepository repository,
-        ILogger<UpdateTeamHandler> logger)
+        ILogger<UpdateTeamNameHandler> logger)
     {
         _repository = repository;
         _logger = logger;

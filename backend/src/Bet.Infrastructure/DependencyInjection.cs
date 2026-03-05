@@ -1,4 +1,4 @@
-﻿using Bet.Application;
+﻿using Bet.Application.IoC;
 using Bet.Infrastructure.Options;
 using Bet.Infrastructure.Providers;
 using Bet.Infrastructure.Repositories;

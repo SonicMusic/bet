@@ -1,4 +1,5 @@
-﻿using Bet.Contracts.Commands.Games;
+﻿using Bet.Application.IoC;
+using Bet.Contracts.Commands.Games;
 using Bet.Domain.GameManagement;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;

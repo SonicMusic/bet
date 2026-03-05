@@ -16,15 +16,16 @@ public class TeamConfiguration: IEntityTypeConfiguration<Team>
             .ValueGeneratedNever(); // Id генерируется доменом
 
         builder.Property(t => t.Name)
-            .HasMaxLength(Constants.General.MAX_LOW_TEXT_LENGTH)
+            .HasMaxLength(Constants.Team.MAX_NAME_LENGTH)
             .IsRequired();
+        builder.HasIndex(t => t.Name).IsUnique();
         
         builder.Property(t => t.ShortName)
-            .HasMaxLength(Constants.General.MAX_LOW_TEXT_LENGTH)
+            .HasMaxLength(Constants.Team.SHORT_NAME_LENGTH)
             .IsRequired(false);
         
         builder.Property(t => t.Country)
-            .HasMaxLength(Constants.General.MAX_LOW_TEXT_LENGTH)
+            .HasMaxLength(Constants.Team.MAX_NAME_LENGTH)
             .IsRequired(false);
         
         builder.Property(t => t.Logo).HasDefaultValue(false);
