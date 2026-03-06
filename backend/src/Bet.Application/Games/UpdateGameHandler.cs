@@ -8,14 +8,17 @@ namespace Bet.Application.Games;
 
 public class UpdateGameHandler
 {
-    private readonly IGamesRepository _repository;
+    private readonly IGamesRepository _gamesRepository;
+    private readonly ITeamsRepository _teamsRepository;
     private readonly ILogger<UpdateGameHandler> _logger;
 
     public UpdateGameHandler(
-        IGamesRepository repository,
+        IGamesRepository gamesRepository,
+        ITeamsRepository teamsRepository,
         ILogger<UpdateGameHandler> logger)
     {
-        _repository = repository;
+        _gamesRepository = gamesRepository;
+        _teamsRepository = teamsRepository;
         _logger = logger;
     }
 
@@ -23,15 +26,24 @@ public class UpdateGameHandler
         UpdateGameCommand command,
         CancellationToken cancellationToken = default)
     {
-        var gameFromDb = await _repository.GetById(command.GameId, cancellationToken);
+        var gameFromDb = await _gamesRepository.GetById(command.GameId, cancellationToken);
         if (gameFromDb.IsFailure)
             return gameFromDb.Error;
-
-        var gameResult = gameFromDb.Value.Update(command.HomeTeamId, command.AwayTeamId);
+        
+        var homeTeam = await _teamsRepository.GetByName(command.HomeTeam, cancellationToken);
+        if (homeTeam.IsFailure)
+            return homeTeam.Error;
+        
+        var awayTeam = await _teamsRepository.GetByName(command.AwayTeam, cancellationToken);
+        if (homeTeam.IsFailure)
+            return homeTeam.Error;
+        
+        
+        var gameResult = gameFromDb.Value.Update(homeTeam.Value.Id, awayTeam.Value.Id);
         if (gameResult.IsFailure)
             return gameResult.Error;
 
-        await _repository.Save(gameFromDb.Value, cancellationToken);
+        await _gamesRepository.Save(gameFromDb.Value, cancellationToken);
         
         _logger.LogInformation("Update game with id {result}", gameFromDb.Value.Id);
 

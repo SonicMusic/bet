@@ -1,3 +1,3 @@
 ﻿namespace Bet.Contracts.Commands.Games;
 
-public record CreateGameCommand(Guid HomeTeamId, Guid AwayTeamId);
+public record CreateGameCommand(string HomeTeam, string AwayTeam);

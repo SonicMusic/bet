@@ -25,7 +25,7 @@ public class PredictionsController : ApplicationController
     }
 
     [HttpPut("{predictionId:guid}")]
-    public async Task<ActionResult<Guid>> Create(
+    public async Task<ActionResult<Guid>> Update(
         [FromRoute] Guid predictionId,
         [FromBody] UpdateStatusPredictionRequest request,
         [FromServices] UpdateStatusPredictionHandler handler,
