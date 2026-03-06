@@ -1,4 +1,5 @@
 ﻿using Bet.API.Extensions;
+using Bet.API.Validators.Prediction;
 using Bet.Application.Predictions;
 using Bet.Contracts.Commands.Predictions;
 using Bet.Contracts.Requests.Predictions;
@@ -12,10 +13,15 @@ public class PredictionsController : ApplicationController
     public async Task<ActionResult<Guid>> Create(
         [FromRoute] Guid gameId,
         [FromBody] CreatePredictionRequest request,
+        [FromServices] CreatePredictionRequestValidator validator,
         [FromServices] CreatePredictionHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var command = new CreatePredictionCommand(gameId, request.HomeTeamGoals, request.HomeTeamGoals);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new CreatePredictionCommand(gameId, request.HomeTeamGoals, request.AwayTeamGoals);
 
         var prediction = await handler.Handle(command, cancellationToken);
         if (prediction.IsFailure)
@@ -25,12 +31,17 @@ public class PredictionsController : ApplicationController
     }
 
     [HttpPut("{predictionId:guid}")]
-    public async Task<ActionResult<Guid>> Update(
+    public async Task<ActionResult<Guid>> UpdateStatus(
         [FromRoute] Guid predictionId,
         [FromBody] UpdateStatusPredictionRequest request,
+        [FromServices] UpdateStatusPredictionRequestValidator validator,
         [FromServices] UpdateStatusPredictionHandler handler,
         CancellationToken cancellationToken = default)
     {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
         var command = new UpdateStatusPredictionCommand(predictionId, request.Status);
 
         var prediction = await handler.Handle(command, cancellationToken);
