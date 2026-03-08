@@ -1,4 +1,4 @@
-﻿using Bet.Application.IoC;
+using Bet.Application.IoC;
 using Bet.Contracts.Commands.Games;
 using Bet.Domain.GameManagement;
 using Bet.Domain.Shared;
@@ -35,7 +35,7 @@ public class CreateGameHandler
         if (homeTeam.IsFailure)
             return homeTeam.Error;
         
-        var gameResult = Game.Create(homeTeam.Value.Id, awayTeam.Value.Id);
+        var gameResult = Game.Create(command.TournamentId, homeTeam.Value.Id, awayTeam.Value.Id);
         if (gameResult.IsFailure)
             return Errors.General.ValueIsInvalid();
 

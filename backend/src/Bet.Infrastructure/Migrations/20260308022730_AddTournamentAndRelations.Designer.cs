@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260305134951_Initial")]
-    partial class Initial
+    [Migration("20260308022730_AddTournamentAndRelations")]
+    partial class AddTournamentAndRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,10 @@ namespace Bet.Infrastructure.Migrations
                         .HasDefaultValue("NotStarted")
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tournament_id");
+
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
@@ -74,6 +78,9 @@ namespace Bet.Infrastructure.Migrations
 
                     b.HasIndex("HomeTeamId")
                         .HasDatabaseName("ix_games_home_team_id");
+
+                    b.HasIndex("TournamentId")
+                        .HasDatabaseName("ix_games_tournament_id");
 
                     b.ToTable("games", (string)null);
                 });
@@ -162,6 +169,62 @@ namespace Bet.Infrastructure.Migrations
                     b.ToTable("teams", (string)null);
                 });
 
+            modelBuilder.Entity("Bet.Domain.TournamentManagement.Tournament", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("country");
+
+                    b.Property<bool>("Logo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("logo");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.HasKey("Id")
+                        .HasName("pk_tournaments");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tournaments_name");
+
+                    b.ToTable("tournaments", (string)null);
+                });
+
+            modelBuilder.Entity("Bet.Infrastructure.Entities.TournamentTeam", b =>
+                {
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tournament_id");
+
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("team_id");
+
+                    b.HasKey("TournamentId", "TeamId")
+                        .HasName("pk_tournament_teams");
+
+                    b.HasIndex("TeamId")
+                        .HasDatabaseName("ix_tournament_teams_team_id");
+
+                    b.ToTable("tournament_teams", (string)null);
+                });
+
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
                 {
                     b.HasOne("Bet.Domain.TeamManagement.Team", null)
@@ -177,6 +240,13 @@ namespace Bet.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_games_teams_home_team_id");
+
+                    b.HasOne("Bet.Domain.TournamentManagement.Tournament", null)
+                        .WithMany()
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_games_tournaments_tournament_id");
                 });
 
             modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
@@ -187,6 +257,23 @@ namespace Bet.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_predictions_games_game_id");
+                });
+
+            modelBuilder.Entity("Bet.Infrastructure.Entities.TournamentTeam", b =>
+                {
+                    b.HasOne("Bet.Domain.TeamManagement.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_tournament_teams_teams_team_id");
+
+                    b.HasOne("Bet.Domain.TournamentManagement.Tournament", null)
+                        .WithMany()
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_tournament_teams_tournaments_tournament_id");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bet.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddTournamentAndRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,10 +28,26 @@ namespace Bet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tournaments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    logo = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_tournaments", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "games",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    tournament_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     away_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
@@ -53,6 +69,36 @@ namespace Bet.Infrastructure.Migrations
                         name: "fk_games_teams_home_team_id",
                         column: x => x.home_team_id,
                         principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "fk_games_tournaments_tournament_id",
+                        column: x => x.tournament_id,
+                        principalTable: "tournaments",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tournament_teams",
+                columns: table => new
+                {
+                    tournament_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    team_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_tournament_teams", x => new { x.tournament_id, x.team_id });
+                    table.ForeignKey(
+                        name: "fk_tournament_teams_teams_team_id",
+                        column: x => x.team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "fk_tournament_teams_tournaments_tournament_id",
+                        column: x => x.tournament_id,
+                        principalTable: "tournaments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -90,6 +136,11 @@ namespace Bet.Infrastructure.Migrations
                 column: "home_team_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_games_tournament_id",
+                table: "games",
+                column: "tournament_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_predictions_game_id",
                 table: "predictions",
                 column: "game_id");
@@ -97,6 +148,17 @@ namespace Bet.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "ix_teams_name",
                 table: "teams",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tournament_teams_team_id",
+                table: "tournament_teams",
+                column: "team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tournaments_name",
+                table: "tournaments",
                 column: "name",
                 unique: true);
         }
@@ -108,10 +170,16 @@ namespace Bet.Infrastructure.Migrations
                 name: "predictions");
 
             migrationBuilder.DropTable(
+                name: "tournament_teams");
+
+            migrationBuilder.DropTable(
                 name: "games");
 
             migrationBuilder.DropTable(
                 name: "teams");
+
+            migrationBuilder.DropTable(
+                name: "tournaments");
         }
     }
 }

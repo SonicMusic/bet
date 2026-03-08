@@ -1,4 +1,4 @@
-﻿using Bet.Domain.Shared;
+using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.GameManagement;
@@ -13,14 +13,16 @@ public class Game : Entity, IIsDeletedField
         
     }
 
-    private Game(Guid id, Guid homeTeamId, Guid awayTeamId)
+    private Game(Guid id, Guid tournamentId, Guid homeTeamId, Guid awayTeamId)
     {
         Id = id;
+        TournamentId = tournamentId;
         HomeTeamId = homeTeamId;
         AwayTeamId = awayTeamId;
     }
     
     public new Guid Id { get; private set; }
+    public Guid TournamentId { get; private set; }
     
     public Guid HomeTeamId { get; private set; }  
     public Guid AwayTeamId { get; private set; }
@@ -29,27 +31,32 @@ public class Game : Entity, IIsDeletedField
     public StatusGame Status { get; private set; } = StatusGame.NotStarted;
     public DateTimeOffset Start { get; private set; } = DateTimeOffset.MaxValue;
 
-    public static Result<Game, Error> Create(Guid homeTeamId, Guid awayTeamId)
+    public static Result<Game, Error> Create(Guid tournamentId, Guid homeTeamId, Guid awayTeamId)
     {
-        if (string.IsNullOrWhiteSpace(homeTeamId.ToString()))
+        if (tournamentId == default)
+            return Errors.General.ValueIsRequired();
+        if (homeTeamId == default)
             return Errors.General.ValueIsRequired(); 
-        if (string.IsNullOrWhiteSpace(awayTeamId.ToString()))
+        if (awayTeamId == default)
             return Errors.General.ValueIsRequired();
         if (homeTeamId == awayTeamId)
             return Errors.General.AlreadyExist();
         
-        return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
+        return new Game(Guid.NewGuid(), tournamentId, homeTeamId, awayTeamId);
     }
 
-    public UnitResult<Error> Update(Guid homeTeamId, Guid awayTeamId)
+    public UnitResult<Error> Update(Guid tournamentId, Guid homeTeamId, Guid awayTeamId)
     {
-        if (string.IsNullOrWhiteSpace(homeTeamId.ToString()))
+        if (tournamentId == default)
+            return Errors.General.ValueIsRequired();
+        if (homeTeamId == default)
             return Errors.General.ValueIsRequired(); 
-        if (string.IsNullOrWhiteSpace(awayTeamId.ToString()))
+        if (awayTeamId == default)
             return Errors.General.ValueIsRequired();
         if (homeTeamId == awayTeamId)
             return Errors.General.AlreadyExist();
 
+        TournamentId = tournamentId;
         HomeTeamId = homeTeamId;
         AwayTeamId = awayTeamId;
         

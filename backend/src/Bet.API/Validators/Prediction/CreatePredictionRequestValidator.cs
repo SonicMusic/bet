@@ -7,7 +7,7 @@ public class CreatePredictionRequestValidator : AbstractValidator<CreatePredicti
 {
     public CreatePredictionRequestValidator()
     {
-        RuleFor(p => p.HomeTeamGoals).NotNull().LessThan(0);
-        RuleFor(p => p.AwayTeamGoals).NotNull().LessThan(0);
+        RuleFor(p => p.HomeTeamGoals).NotNull().GreaterThan(0);
+        RuleFor(p => p.AwayTeamGoals).NotNull().GreaterThan(0);
     }
 }

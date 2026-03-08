@@ -1,4 +1,4 @@
-﻿using Bet.API.Extensions;
+using Bet.API.Extensions;
 using Bet.API.Validators.Game;
 using Bet.Application.Games;
 using Bet.Contracts.Commands.Games;
@@ -20,7 +20,7 @@ public class GamesController : ApplicationController
         if (validationResult.IsValid == false)
             return BadRequest(validationResult.Errors);
        
-        var command = new CreateGameCommand(request.HomeTeam, request.AwayTeam);
+        var command = new CreateGameCommand(request.TournamentId, request.HomeTeam, request.AwayTeam);
         
         var result = await createGameHandler.Handle(command, cancellationToken);
         if (result.IsFailure)
@@ -41,7 +41,7 @@ public class GamesController : ApplicationController
         if (validationResult.IsValid == false)
             return BadRequest(validationResult.Errors);
         
-        var command = new UpdateGameCommand(guid, request.HomeTeam, request.AwayTeam);
+        var command = new UpdateGameCommand(guid, request.TournamentId, request.HomeTeam, request.AwayTeam);
 
         var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)

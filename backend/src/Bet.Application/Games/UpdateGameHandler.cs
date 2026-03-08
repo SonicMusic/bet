@@ -1,4 +1,4 @@
-﻿using Bet.Application.IoC;
+using Bet.Application.IoC;
 using Bet.Contracts.Commands.Games;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
@@ -39,7 +39,7 @@ public class UpdateGameHandler
             return homeTeam.Error;
         
         
-        var gameResult = gameFromDb.Value.Update(homeTeam.Value.Id, awayTeam.Value.Id);
+        var gameResult = gameFromDb.Value.Update(command.TournamentId, homeTeam.Value.Id, awayTeam.Value.Id);
         if (gameResult.IsFailure)
             return gameResult.Error;
 

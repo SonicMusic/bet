@@ -1,3 +1,3 @@
-﻿namespace Bet.Contracts.Commands.Games;
+namespace Bet.Contracts.Commands.Games;
 
-public record UpdateGameCommand(Guid GameId, string HomeTeam, string AwayTeam);
+public record UpdateGameCommand(Guid GameId, Guid TournamentId, string HomeTeam, string AwayTeam);
