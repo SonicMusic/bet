@@ -25,29 +25,29 @@ public class MinioProvider : IMinioProvider
     {
         try
         {
-            var bucketExistsArgs = new BucketExistsArgs().WithBucket(Constants.Team.LOGO);
+            var bucketExistsArgs = new BucketExistsArgs().WithBucket(Constants.General.LOGO);
             
             var bucketExist = await _minioClient.BucketExistsAsync(bucketExistsArgs, cancellationToken);
             if (bucketExist == false)
             {
-                var makeBucketArgs = new MakeBucketArgs().WithBucket(Constants.Team.LOGO);
+                var makeBucketArgs = new MakeBucketArgs().WithBucket(Constants.General.LOGO);
 
                 await _minioClient.MakeBucketAsync(makeBucketArgs, cancellationToken);
                 
-                _logger.LogInformation("Make bucket {0} in minio", Constants.Team.LOGO);
+                _logger.LogInformation("Make bucket {0} in minio", Constants.General.LOGO);
             }
 
-            var objectName = command.TeamId + Constants.Team.JPG;
+            var objectName = command.TeamId + Constants.General.JPG;
             
             var putObjectArgs = new PutObjectArgs()
-                .WithBucket(Constants.Team.LOGO)
+                .WithBucket(Constants.General.LOGO)
                 .WithObject(command.TeamId.ToString())
                 .WithStreamData(command.Stream);
 
             var result = await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
             
             _logger.LogInformation("Put object {0} to bucket {1} in minio", 
-                command.TeamId.ToString(), Constants.Team.LOGO);
+                command.TeamId.ToString(), Constants.General.LOGO);
 
             return result.ObjectName;
         }

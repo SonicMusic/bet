@@ -10,13 +10,13 @@ public class UpdateGameRequestValidator : AbstractValidator<UpdateGameRequest>
     {
         RuleFor(g => g.HomeTeam)
             .NotEmpty()
-            .MaximumLength(Constants.Team.MAX_NAME_LENGTH)
-            .MinimumLength(Constants.Team.SHORT_NAME_LENGTH);
+            .MaximumLength(Constants.General.MAX_NAME_LENGTH)
+            .MinimumLength(Constants.General.MIN_NAME_LENGTH);
 
         RuleFor(g => g.AwayTeam)
             .NotEmpty()
-            .MaximumLength(Constants.Team.MAX_NAME_LENGTH)
-            .MinimumLength(Constants.Team.SHORT_NAME_LENGTH)
+            .MaximumLength(Constants.General.MAX_NAME_LENGTH)
+            .MinimumLength(Constants.General.MIN_NAME_LENGTH)
             .NotEqual(g => g.HomeTeam);
     }
 }

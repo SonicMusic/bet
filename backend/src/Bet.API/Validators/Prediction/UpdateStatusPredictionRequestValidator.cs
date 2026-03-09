@@ -10,7 +10,7 @@ public class UpdateStatusPredictionRequestValidator : AbstractValidator<UpdateSt
     {
         RuleFor(p => p.Status)
             .NotEmpty()
-            .MinimumLength(Constants.Team.MIN_NAME_LENGTH)
-            .MaximumLength(Constants.Team.MAX_NAME_LENGTH);
+            .MinimumLength(Constants.General.MIN_NAME_LENGTH)
+            .MaximumLength(Constants.General.MAX_NAME_LENGTH);
     }
 }

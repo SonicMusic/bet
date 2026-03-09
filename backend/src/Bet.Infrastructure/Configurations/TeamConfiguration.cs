@@ -17,18 +17,18 @@ public class TeamConfiguration: IEntityTypeConfiguration<Team>
             .ValueGeneratedNever(); // Id генерируется доменом
 
         builder.Property(t => t.Name)
-            .HasMaxLength(Constants.Team.MAX_NAME_LENGTH)
+            .HasMaxLength(Constants.General.MAX_NAME_LENGTH)
             .IsRequired();
         builder.HasIndex(t => t.Name).IsUnique();
 
         builder.OwnsOne(t => t.TournamentList, tlb =>
         {
-            tlb.ToJson();
-
+            tlb.ToJson("tournaments");
+            
             tlb.OwnsMany(tl => tl.Tournaments, tb =>
             {
-                tb.Property(t => t.Name).IsRequired();
-                tb.Property(t => t.Country).IsRequired();
+                tb.Property(t => t.Name).IsRequired().HasMaxLength(Constants.General.MAX_NAME_LENGTH);
+                tb.Property(t => t.Country).IsRequired().HasMaxLength(Constants.General.MAX_NAME_LENGTH);
             });
         });
 

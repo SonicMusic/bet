@@ -10,7 +10,7 @@ public class CreateTeamRequestValidator : AbstractValidator<CreateTeamRequest>
     {
         RuleFor(c => c.Name)
             .NotEmpty()
-            .MaximumLength(Constants.Team.MAX_NAME_LENGTH)
-            .MinimumLength(Constants.Team.SHORT_NAME_LENGTH);
+            .MaximumLength(Constants.General.MAX_NAME_LENGTH)
+            .MinimumLength(Constants.General.MIN_NAME_LENGTH);
     }
 }

@@ -19,7 +19,7 @@ namespace Bet.Infrastructure.Migrations
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     logo = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
-                    TournamentList = table.Column<string>(type: "jsonb", nullable: true)
+                    tournaments = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,7 +37,8 @@ namespace Bet.Infrastructure.Migrations
                     away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     status = table.Column<string>(type: "text", nullable: false, defaultValue: "NotStarted"),
                     start = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    tournament = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {

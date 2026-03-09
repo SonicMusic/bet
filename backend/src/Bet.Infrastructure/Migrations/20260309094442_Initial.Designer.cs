@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260309022730_Initial")]
+    [Migration("20260309094442_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -167,6 +167,36 @@ namespace Bet.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_games_teams_home_team_id");
+
+                    b.OwnsOne("Bet.Domain.Shared.ValueObjects.Tournament", "Tournament", b1 =>
+                        {
+                            b1.Property<Guid>("GameId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.HasKey("GameId")
+                                .HasName("pk_games");
+
+                            b1.ToTable("games");
+
+                            b1.ToJson("tournament");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GameId")
+                                .HasConstraintName("fk_games_games_game_id");
+                        });
+
+                    b.Navigation("Tournament")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
@@ -191,7 +221,7 @@ namespace Bet.Infrastructure.Migrations
 
                             b1.ToTable("teams");
 
-                            b1.ToJson("TournamentList");
+                            b1.ToJson("tournaments");
 
                             b1.WithOwner()
                                 .HasForeignKey("TeamId")
@@ -208,11 +238,13 @@ namespace Bet.Infrastructure.Migrations
 
                                     b2.Property<string>("Country")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .HasMaxLength(50)
+                                        .HasColumnType("character varying(50)");
 
                                     b2.Property<string>("Name")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .HasMaxLength(50)
+                                        .HasColumnType("character varying(50)");
 
                                     b2.HasKey("TournamentListTeamId", "Id")
                                         .HasName("pk_teams");

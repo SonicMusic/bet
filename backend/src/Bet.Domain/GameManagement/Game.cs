@@ -27,7 +27,7 @@ public class Game : Entity, IIsDeletedField
     public Guid AwayTeamId { get; private set; }
     public int HomeTeamGoals { get; private set; } = default;
     public int AwayTeamGoals { get; private set; } = default;
-    // public Tournament? Tournament { get; private set; }
+    public Tournament Tournament { get; private set; } = default!;
     public StatusGame Status { get; private set; } = StatusGame.NotStarted;
     public DateTimeOffset Start { get; private set; } = DateTimeOffset.MaxValue;
 

@@ -30,8 +30,8 @@ public class Team : Entity, IIsDeletedField
     public static Result<Team, Error> Create(string name)
     {
         if (string.IsNullOrWhiteSpace(name) || 
-            name.Length > Constants.Team.MAX_NAME_LENGTH ||
-            name.Length < Constants.Team.MIN_NAME_LENGTH)
+            name.Length > Constants.General.MAX_NAME_LENGTH ||
+            name.Length < Constants.General.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Team));
 
         return new Team(Guid.NewGuid(), name);
@@ -40,8 +40,8 @@ public class Team : Entity, IIsDeletedField
     public UnitResult<Error> UpdateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name) || 
-            name.Length > Constants.Team.MAX_NAME_LENGTH ||
-            name.Length < Constants.Team.MIN_NAME_LENGTH)
+            name.Length > Constants.General.MAX_NAME_LENGTH ||
+            name.Length < Constants.General.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Team));
         
         Name = name.Trim();

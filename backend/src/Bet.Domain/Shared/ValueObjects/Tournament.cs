@@ -21,13 +21,13 @@ public class Tournament : ValueObject
     public static Result<Tournament, Error> Create(string name, string country)
     {
         if (string.IsNullOrWhiteSpace(name) || 
-            name.Length > Constants.Team.MAX_NAME_LENGTH ||
-            name.Length < Constants.Team.MIN_NAME_LENGTH)
+            name.Length > Constants.General.MAX_NAME_LENGTH ||
+            name.Length < Constants.General.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Tournament));
         
         if (string.IsNullOrWhiteSpace(country) || 
-            country.Length > Constants.Team.MAX_NAME_LENGTH ||
-            country.Length < Constants.Team.MIN_NAME_LENGTH)
+            country.Length > Constants.General.MAX_NAME_LENGTH ||
+            country.Length < Constants.General.MIN_NAME_LENGTH)
             return Errors.General.ValueIsInvalid(nameof(Tournament));
 
         return new Tournament(name, country);

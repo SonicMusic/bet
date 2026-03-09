@@ -1,4 +1,5 @@
 using Bet.Domain.GameManagement;
+using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -35,7 +36,13 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.Property(g => g.HomeTeamGoals).IsRequired().HasDefaultValue(0);
         builder.Property(g => g.AwayTeamGoals).IsRequired().HasDefaultValue(0);
 
-        // builder.Property(g => g.Tournament).IsRequired(false);
+        builder.OwnsOne(g => g.Tournament, tb =>
+        {
+            tb.ToJson("tournament");
+
+            tb.Property(t => t.Name).IsRequired().HasMaxLength(Constants.General.MAX_NAME_LENGTH);
+            tb.Property(t => t.Country).IsRequired().HasMaxLength(Constants.General.MAX_NAME_LENGTH);
+        });
 
         builder.Property(g => g.Status)
             .HasConversion<string>()
