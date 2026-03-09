@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ITeamsRepository, TeamsRepository>();
         services.AddScoped<IGamesRepository, GamesRepository>();
         services.AddScoped<IPredictionsRepository, PredictionsRepository>();
+        services.AddScoped<ITournamentsRepository, TournamentsRepository>();
         services.AddScoped<IMinioProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

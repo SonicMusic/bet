@@ -1,4 +1,4 @@
-﻿using Bet.Contracts.Commands.Teams;
+﻿using Bet.Application.Teams;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 

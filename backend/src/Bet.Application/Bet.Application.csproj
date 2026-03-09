@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bet.Contracts\Bet.Contracts.csproj" />
       <ProjectReference Include="..\Bet.Domain\Bet.Domain.csproj" />
     </ItemGroup>
 

@@ -13,6 +13,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
     public DbSet<Game> Games => Set<Game>();
     public DbSet<Team> Teams => Set<Team>();
     public DbSet<Prediction> Predictions => Set<Prediction>();
+    public DbSet<Tournament> Tournaments => Set<Tournament>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
