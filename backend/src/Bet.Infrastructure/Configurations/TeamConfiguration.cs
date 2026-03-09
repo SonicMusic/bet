@@ -1,4 +1,5 @@
-﻿using Bet.Domain.Shared;
+using Bet.Domain.Shared;
+using Bet.Domain.Shared.ValueObjects;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,15 +20,18 @@ public class TeamConfiguration: IEntityTypeConfiguration<Team>
             .HasMaxLength(Constants.Team.MAX_NAME_LENGTH)
             .IsRequired();
         builder.HasIndex(t => t.Name).IsUnique();
-        
-        builder.Property(t => t.ShortName)
-            .HasMaxLength(Constants.Team.SHORT_NAME_LENGTH)
-            .IsRequired(false);
-        
-        builder.Property(t => t.Country)
-            .HasMaxLength(Constants.Team.MAX_NAME_LENGTH)
-            .IsRequired(false);
-        
+
+        builder.OwnsOne(t => t.TournamentList, tlb =>
+        {
+            tlb.ToJson();
+
+            tlb.OwnsMany(tl => tl.Tournaments, tb =>
+            {
+                tb.Property(t => t.Name).IsRequired();
+                tb.Property(t => t.Country).IsRequired();
+            });
+        });
+
         builder.Property(t => t.Logo).HasDefaultValue(false);
         
         builder.Property<bool>("_isDeleted")

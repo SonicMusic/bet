@@ -1,4 +1,5 @@
 ﻿using Bet.Domain.Shared;
+using Bet.Domain.Shared.ValueObjects;
 using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.TeamManagement;
@@ -7,6 +8,8 @@ public class Team : Entity, IIsDeletedField
 {
     private bool _isDeleted = false;
 
+    
+    
     // ef core
     private Team()
     {
@@ -21,8 +24,7 @@ public class Team : Entity, IIsDeletedField
 
     public new Guid Id { get; private set; }
     public string Name { get; private set; } = default!;
-    public string? ShortName { get; private set; }
-    public string? Country { get; private set; }
+    public TournamentList? TournamentList { get; private set; }
     public bool Logo { get; private set; } = false;
 
     public static Result<Team, Error> Create(string name)
@@ -49,23 +51,6 @@ public class Team : Entity, IIsDeletedField
     public void UploadLogo()
     {
         Logo = true;
-    }
-    public UnitResult<Error> UpdateInfo(string? shortName, string? country)
-    {
-        if (shortName != null &&
-            (string.IsNullOrWhiteSpace(shortName) || shortName.Length > Constants.Team.MAX_NAME_LENGTH))
-            return Errors.General.ValueIsInvalid(nameof(Team));
-
-        if (country != null &&
-            (string.IsNullOrWhiteSpace(country) || country.Length > Constants.Team.MAX_NAME_LENGTH))
-            return Errors.General.ValueIsInvalid(nameof(Team));
-
-        if (shortName != null)
-            ShortName = shortName.Trim();
-        if (country != null)
-            Country = country.Trim();
-
-        return UnitResult.Success<Error>();
     }
 
     public void Delete()

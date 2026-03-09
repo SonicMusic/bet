@@ -123,11 +123,6 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Country")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("country");
-
                     b.Property<bool>("Logo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -139,11 +134,6 @@ namespace Bet.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("name");
-
-                    b.Property<string>("ShortName")
-                        .HasMaxLength(3)
-                        .HasColumnType("character varying(3)")
-                        .HasColumnName("short_name");
 
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
@@ -184,6 +174,57 @@ namespace Bet.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_predictions_games_game_id");
+                });
+
+            modelBuilder.Entity("Bet.Domain.TeamManagement.Team", b =>
+                {
+                    b.OwnsOne("Bet.Domain.Shared.ValueObjects.TournamentList", "TournamentList", b1 =>
+                        {
+                            b1.Property<Guid>("TeamId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.HasKey("TeamId");
+
+                            b1.ToTable("teams");
+
+                            b1.ToJson("TournamentList");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TeamId")
+                                .HasConstraintName("fk_teams_teams_id");
+
+                            b1.OwnsMany("Bet.Domain.Shared.ValueObjects.Tournament", "Tournaments", b2 =>
+                                {
+                                    b2.Property<Guid>("TournamentListTeamId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<string>("Country")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("TournamentListTeamId", "Id")
+                                        .HasName("pk_teams");
+
+                                    b2.ToTable("teams");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("TournamentListTeamId")
+                                        .HasConstraintName("fk_teams_teams_tournament_list_team_id");
+                                });
+
+                            b1.Navigation("Tournaments");
+                        });
+
+                    b.Navigation("TournamentList");
                 });
 #pragma warning restore 612, 618
         }

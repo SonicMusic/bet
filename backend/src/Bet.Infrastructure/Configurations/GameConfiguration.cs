@@ -31,12 +31,11 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.HasIndex(g => g.HomeTeamId);
         builder.HasIndex(g => g.AwayTeamId);
 
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
-        
+
         builder.Property(g => g.HomeTeamGoals).IsRequired().HasDefaultValue(0);
         builder.Property(g => g.AwayTeamGoals).IsRequired().HasDefaultValue(0);
+
+        // builder.Property(g => g.Tournament).IsRequired(false);
 
         builder.Property(g => g.Status)
             .HasConversion<string>()
@@ -44,5 +43,9 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 
         builder.Property(g => g.Start)
             .IsRequired();
+
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }
