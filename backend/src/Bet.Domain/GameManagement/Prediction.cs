@@ -9,9 +9,10 @@ public class Prediction : Entity, IIsDeletedField
     private bool _isDeleted = false;
 
     // ef core
-    public Guid GameId { get; private set; }
+    public Game Game { get; private set; }
     private Prediction()
     {
+        ;
     }
 
     public Prediction(int homeTeamGoals, int awayTeamGoals)

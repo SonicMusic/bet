@@ -49,8 +49,8 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
             .IsRequired();
 
         builder.HasMany(g => g.Predictions)
-            .WithOne()
-            .HasForeignKey(p => p.GameId)
+            .WithOne(p => p.Game)
+            .HasForeignKey("game_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
     }

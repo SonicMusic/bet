@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260309223150_Initial")]
+    [Migration("20260310004523_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -90,10 +90,6 @@ namespace Bet.Infrastructure.Migrations
                         .HasDefaultValue(0)
                         .HasColumnName("away_team_predicted_goals");
 
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("game_id");
-
                     b.Property<int>("HomeTeamPredictedGoals")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
@@ -111,10 +107,14 @@ namespace Bet.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
+                    b.Property<Guid>("game_id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("game_id");
+
                     b.HasKey("Id")
                         .HasName("pk_predictions");
 
-                    b.HasIndex("GameId")
+                    b.HasIndex("game_id")
                         .HasDatabaseName("ix_predictions_game_id");
 
                     b.ToTable("predictions", (string)null);
@@ -196,12 +196,14 @@ namespace Bet.Infrastructure.Migrations
 
             modelBuilder.Entity("Bet.Domain.GameManagement.Prediction", b =>
                 {
-                    b.HasOne("Bet.Domain.GameManagement.Game", null)
+                    b.HasOne("Bet.Domain.GameManagement.Game", "Game")
                         .WithMany("Predictions")
-                        .HasForeignKey("GameId")
+                        .HasForeignKey("game_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_predictions_games_game_id");
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
