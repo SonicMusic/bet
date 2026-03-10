@@ -26,7 +26,7 @@ namespace Bet.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("game_id");
 
                     b.Property<int>("AwayTeamGoals")
                         .ValueGeneratedOnAdd()
@@ -75,27 +75,27 @@ namespace Bet.Infrastructure.Migrations
                     b.ToTable("games", (string)null);
                 });
 
-            modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
+            modelBuilder.Entity("Bet.Domain.GameManagement.Prediction", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<int>("AwayTeamGoals")
+                    b.Property<int>("AwayTeamPredictedGoals")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValue(0)
-                        .HasColumnName("away_team_goals");
+                        .HasColumnName("away_team_predicted_goals");
 
                     b.Property<Guid>("GameId")
                         .HasColumnType("uuid")
                         .HasColumnName("game_id");
 
-                    b.Property<int>("HomeTeamGoals")
+                    b.Property<int>("HomeTeamPredictedGoals")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValue(0)
-                        .HasColumnName("home_team_goals");
+                        .HasColumnName("home_team_predicted_goals");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -191,14 +191,19 @@ namespace Bet.Infrastructure.Migrations
                         .HasConstraintName("fk_games_teams_home_team_id");
                 });
 
-            modelBuilder.Entity("Bet.Domain.PredictionManagement.Prediction", b =>
+            modelBuilder.Entity("Bet.Domain.GameManagement.Prediction", b =>
                 {
                     b.HasOne("Bet.Domain.GameManagement.Game", null)
-                        .WithMany()
+                        .WithMany("Predictions")
                         .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_predictions_games_game_id");
+                });
+
+            modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
+                {
+                    b.Navigation("Predictions");
                 });
 #pragma warning restore 612, 618
         }

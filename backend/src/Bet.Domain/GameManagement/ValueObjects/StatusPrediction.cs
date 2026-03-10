@@ -1,4 +1,4 @@
-﻿namespace Bet.Domain.PredictionManagement;
+﻿namespace Bet.Domain.GameManagement.ValueObjects;
 
 public enum StatusPrediction
 {

@@ -1,4 +1,5 @@
 using Bet.Domain.GameManagement;
+using Bet.Domain.GameManagement.ValueObjects;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,7 +13,9 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.ToTable("games");
 
         builder.HasKey(g => g.Id);
-        builder.Property(g => g.Id).ValueGeneratedNever(); // Id генерируется доменом
+        builder.Property(g => g.Id)
+            .HasColumnName("game_id")
+            .ValueGeneratedNever(); // Id генерируется доменом
 
         builder.Property(g => g.HomeTeamId).IsRequired();
         builder.Property(g => g.AwayTeamId).IsRequired();
@@ -43,6 +46,12 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
             .HasDefaultValue(StatusGame.NotStarted);
 
         builder.Property(g => g.Start)
+            .IsRequired();
+
+        builder.HasMany(g => g.Predictions)
+            .WithOne()
+            .HasForeignKey(p => p.GameId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
     }
 }

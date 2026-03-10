@@ -1,4 +1,4 @@
-﻿namespace Bet.Domain.GameManagement;
+﻿namespace Bet.Domain.GameManagement.ValueObjects;
 
 public enum StatusGame
 {

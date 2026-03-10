@@ -26,8 +26,8 @@ public class GamesRepository : IGamesRepository
 
     public async Task<Result<Game, Error>> GetById(Guid guid, CancellationToken cancellationToken)
     {
-        var game = await _dbContext.Games
-            .FirstOrDefaultAsync(t => t.Id == guid);
+        var game = await _dbContext.Games.Include(g => g.Predictions)
+            .FirstOrDefaultAsync(g => g.Id == guid, cancellationToken: cancellationToken);
 
         if (game is null)
             return Errors.General.NotFound(guid);

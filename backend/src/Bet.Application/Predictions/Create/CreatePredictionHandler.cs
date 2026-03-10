@@ -1,5 +1,5 @@
 ﻿using Bet.Application.IoC;
-using Bet.Domain.PredictionManagement;
+using Bet.Domain.GameManagement;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
@@ -8,16 +8,13 @@ namespace Bet.Application.Predictions.Create;
 
 public class CreatePredictionHandler
 {
-    private readonly IPredictionsRepository _predictionsRepository;
     private readonly IGamesRepository _gamesRepository;
     private readonly ILogger<CreatePredictionHandler> _logger;
 
     public CreatePredictionHandler(
-        IPredictionsRepository predictionsRepository,
         IGamesRepository gamesRepository,
         ILogger<CreatePredictionHandler> logger)
     {
-        _predictionsRepository = predictionsRepository;
         _gamesRepository = gamesRepository;
         _logger = logger;
     }
@@ -30,14 +27,16 @@ public class CreatePredictionHandler
         if (gameResult.IsFailure)
             return gameResult.Error;
 
-        var predictionResult = Prediction.Create(gameResult.Value.Id, command.HomeTeamGoals, command.AwayTeamGoals);
-        if (predictionResult.IsFailure)
-            return predictionResult.Error;
-
-        var prediction = await _predictionsRepository.Add(predictionResult.Value, cancellationToken);
+        var prediction = new Prediction(command.HomeTeamGoals, command.AwayTeamGoals);
         
-        _logger.LogInformation("Created prediction id {prediction}", prediction);
+        var result = gameResult.Value.AddPrediction(prediction);
+        if (result.IsFailure)
+            return result.Error;
 
-        return prediction;
+        await _gamesRepository.Save(gameResult.Value, cancellationToken);
+        
+        _logger.LogInformation("Created prediction id {prediction}", prediction.Id);
+
+        return prediction.Id;
     }
 }

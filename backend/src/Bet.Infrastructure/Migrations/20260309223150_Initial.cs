@@ -42,7 +42,7 @@ namespace Bet.Infrastructure.Migrations
                 name: "games",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    game_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     away_team_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
@@ -53,7 +53,7 @@ namespace Bet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_games", x => x.id);
+                    table.PrimaryKey("pk_games", x => x.game_id);
                     table.ForeignKey(
                         name: "fk_games_teams_away_team_id",
                         column: x => x.away_team_id,
@@ -74,8 +74,8 @@ namespace Bet.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     game_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    home_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    away_team_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    home_team_predicted_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    away_team_predicted_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     status = table.Column<string>(type: "text", nullable: false, defaultValue: "Pending"),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -86,8 +86,8 @@ namespace Bet.Infrastructure.Migrations
                         name: "fk_predictions_games_game_id",
                         column: x => x.game_id,
                         principalTable: "games",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "game_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,4 +1,5 @@
-﻿using Bet.Domain.Shared;
+﻿using Bet.Domain.GameManagement.ValueObjects;
+using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 
 namespace Bet.Domain.GameManagement;
@@ -6,6 +7,7 @@ namespace Bet.Domain.GameManagement;
 public class Game : Entity, IIsDeletedField
 {
     private bool _isDeleted = false;
+    private readonly List<Prediction> _predictions = [];
 
     // ef core
     private Game()
@@ -13,9 +15,9 @@ public class Game : Entity, IIsDeletedField
         
     }
 
-    private Game(Guid id, Guid homeTeamId, Guid awayTeamId)
+    private Game(Guid homeTeamId, Guid awayTeamId)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         HomeTeamId = homeTeamId;
         AwayTeamId = awayTeamId;
     }
@@ -26,6 +28,7 @@ public class Game : Entity, IIsDeletedField
     public Guid AwayTeamId { get; private set; }
     public int HomeTeamGoals { get; private set; } = default;
     public int AwayTeamGoals { get; private set; } = default;
+    public IReadOnlyList<Prediction> Predictions => _predictions;
     public StatusGame Status { get; private set; } = StatusGame.NotStarted;
     public DateTimeOffset Start { get; private set; } = DateTimeOffset.MaxValue;
 
@@ -38,7 +41,7 @@ public class Game : Entity, IIsDeletedField
         if (homeTeamId == awayTeamId)
             return Errors.General.AlreadyExist();
         
-        return new Game(Guid.NewGuid(), homeTeamId, awayTeamId);
+        return new Game(homeTeamId, awayTeamId);
     }
 
     public UnitResult<Error> Update(Guid homeTeamId, Guid awayTeamId)
@@ -79,5 +82,11 @@ public class Game : Entity, IIsDeletedField
         if (!_isDeleted) return;
 
         _isDeleted = false;
+    }
+
+    public UnitResult<Error> AddPrediction(Prediction prediction)
+    {
+        _predictions.Add(prediction);
+        return UnitResult.Success<Error>();
     }
 }

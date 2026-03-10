@@ -1,6 +1,8 @@
-﻿namespace Bet.Domain.TeamManagement;
+﻿using CSharpFunctionalExtensions;
 
-public class Tournament
+namespace Bet.Domain.TeamManagement;
+
+public class Tournament : Entity
 {
     //ef core
     private Tournament()

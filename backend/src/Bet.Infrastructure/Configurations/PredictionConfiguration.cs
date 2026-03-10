@@ -1,5 +1,5 @@
 ﻿using Bet.Domain.GameManagement;
-using Bet.Domain.PredictionManagement;
+using Bet.Domain.GameManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,21 +12,11 @@ public class PredictionConfiguration : IEntityTypeConfiguration<Prediction>
         builder.ToTable("predictions");
 
         builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id).ValueGeneratedNever(); // Id генерируется доменом
+        builder.Property(p => p.Id)
+            .ValueGeneratedNever(); // Id генерируется доменом
 
-        builder.HasOne<Game>()
-            .WithMany()
-            .HasForeignKey(p => p.GameId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasIndex(p => p.GameId);
-
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
-
-        builder.Property(p => p.HomeTeamGoals).IsRequired().HasDefaultValue(0);
-        builder.Property(p => p.AwayTeamGoals).IsRequired().HasDefaultValue(0);
+        builder.Property(p => p.HomeTeamPredictedGoals).IsRequired().HasDefaultValue(0);
+        builder.Property(p => p.AwayTeamPredictedGoals).IsRequired().HasDefaultValue(0);
 
         builder.Property(p => p.Status)
             .HasConversion<string>()

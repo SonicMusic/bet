@@ -1,5 +1,4 @@
 ﻿using Bet.Domain.GameManagement;
-using Bet.Domain.PredictionManagement;
 using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +11,6 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
     private const string DATABASE = "Database";
     public DbSet<Game> Games => Set<Game>();
     public DbSet<Team> Teams => Set<Team>();
-    public DbSet<Prediction> Predictions => Set<Prediction>();
     public DbSet<Tournament> Tournaments => Set<Tournament>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
