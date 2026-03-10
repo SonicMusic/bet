@@ -1,8 +1,11 @@
 ﻿using Bet.API.Extensions;
 using Bet.API.Requests.Games;
+using Bet.API.Requests.Predictions;
 using Bet.Application.Games.Create;
 using Bet.Application.Games.Delete;
 using Bet.Application.Games.Update;
+using Bet.Application.Predictions.Create;
+using Bet.Application.Predictions.Update;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers;
@@ -64,4 +67,27 @@ public class GamesController : ApplicationController
 
         return Ok(result.Value);
     }
+    
+    [HttpPost("{gameId:guid}/prediction")]
+    public async Task<ActionResult<Guid>> AddPrediction(
+        [FromRoute] Guid gameId,
+        [FromBody] CreatePredictionRequest request,
+        [FromServices] CreatePredictionRequestValidator validator,
+        [FromServices] CreatePredictionHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new CreatePredictionCommand(gameId, request.HomeTeamGoals, request.AwayTeamGoals);
+
+        var prediction = await handler.Handle(command, cancellationToken);
+        if (prediction.IsFailure)
+            return prediction.Error.ToResponse();
+
+        return Ok(prediction.Value);
+    }
+    
+    
 }

@@ -27,9 +27,9 @@ public class Prediction : Entity, IIsDeletedField
     public int AwayTeamPredictedGoals { get; private set; } = default;
     public StatusPrediction Status { get; private set; } = StatusPrediction.Pending;
 
-    public UnitResult<Error> SetStatus(StatusPrediction statusPrediction)
+    public UnitResult<Error> SetStatus(StatusPrediction status)
     {
-        Status = statusPrediction;
+        Status = status;
 
         return UnitResult.Success<Error>();
     }

@@ -1,3 +1,3 @@
 ﻿namespace Bet.Application.Predictions.Update;
 
-public record UpdateStatusPredictionCommand(Guid PredictionId, string Status);
+public record UpdateStatusPredictionCommand(Guid GameId, Guid PredictionId, string Status);

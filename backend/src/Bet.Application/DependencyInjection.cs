@@ -2,6 +2,7 @@
 using Bet.Application.Games.Delete;
 using Bet.Application.Games.Update;
 using Bet.Application.Predictions.Create;
+using Bet.Application.Predictions.Update;
 using Bet.Application.Teams;
 using Bet.Application.Teams.Create;
 using Bet.Application.Teams.Update;
@@ -24,8 +25,6 @@ public static class DependencyInjection
         services.AddScoped<DeleteGameHandler>();
         
         services.AddScoped<CreatePredictionHandler>();
-        // services.AddScoped<UpdateStatusPredictionHandler>();
-        // services.AddScoped<DeletePredictionHandler>();
 
         services.AddScoped<CreateTournamentHandler>();
 
