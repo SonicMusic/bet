@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260310004523_Initial")]
+    [Migration("20260317153308_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -150,31 +150,6 @@ namespace Bet.Infrastructure.Migrations
                         .HasDatabaseName("ix_teams_name");
 
                     b.ToTable("teams", (string)null);
-                });
-
-            modelBuilder.Entity("Bet.Domain.TeamManagement.Tournament", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Nation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("nation");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tournament");
-
-                    b.ToTable("tournament", (string)null);
                 });
 
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>

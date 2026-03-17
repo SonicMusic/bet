@@ -5,7 +5,6 @@ using Bet.Application.Games.Create;
 using Bet.Application.Games.Delete;
 using Bet.Application.Games.Update;
 using Bet.Application.Predictions.Create;
-using Bet.Application.Predictions.Update;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers;

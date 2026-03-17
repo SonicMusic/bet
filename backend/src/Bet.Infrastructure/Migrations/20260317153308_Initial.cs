@@ -26,19 +26,6 @@ namespace Bet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tournament",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    nation = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_tournament", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "games",
                 columns: table => new
                 {
@@ -117,9 +104,6 @@ namespace Bet.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "predictions");
-
-            migrationBuilder.DropTable(
-                name: "tournament");
 
             migrationBuilder.DropTable(
                 name: "games");

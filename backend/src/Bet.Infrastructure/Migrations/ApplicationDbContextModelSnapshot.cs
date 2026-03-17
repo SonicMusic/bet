@@ -149,31 +149,6 @@ namespace Bet.Infrastructure.Migrations
                     b.ToTable("teams", (string)null);
                 });
 
-            modelBuilder.Entity("Bet.Domain.TeamManagement.Tournament", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Nation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("nation");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tournament");
-
-                    b.ToTable("tournament", (string)null);
-                });
-
             modelBuilder.Entity("Bet.Domain.GameManagement.Game", b =>
                 {
                     b.HasOne("Bet.Domain.TeamManagement.Team", null)
