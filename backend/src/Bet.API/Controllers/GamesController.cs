@@ -31,7 +31,8 @@ public class GamesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpPut("{guid:guid}")]
+    //todo удалить
+    [HttpPut("{guid:guid}/info")]
     public async Task<ActionResult<Guid>> Update(
         [FromRoute] Guid guid,
         [FromBody] UpdateGameRequest request,
@@ -88,5 +89,24 @@ public class GamesController : ApplicationController
         return Ok(prediction.Value);
     }
     
-    
+    [HttpPut("{guid:guid}")]
+    public async Task<ActionResult<Guid>> SetStart(
+        [FromRoute] Guid guid,
+        [FromBody] SetStartGameRequest request,
+        [FromServices] SetStartGameRequestValidator validator,
+        [FromServices] SetStartGameHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new SetStartGameCommand(guid, request.DateTimeOffset);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 }

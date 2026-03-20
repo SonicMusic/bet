@@ -68,6 +68,9 @@ public class Game : Entity, IIsDeletedField
 
     public UnitResult<Error> SetStart(DateTimeOffset dateTimeOffset)
     {
+        if (dateTimeOffset < DateTimeOffset.Now)
+            return Errors.General.ValueIsInvalid(dateTimeOffset.ToString());
+        
         Start = dateTimeOffset;
         
         return UnitResult.Success<Error>();
@@ -86,6 +89,10 @@ public class Game : Entity, IIsDeletedField
 
     public UnitResult<Error> AddPrediction(Prediction prediction)
     {
+        // add prediction if statusGame = notStarted
+        if (Status != StatusGame.NotStarted)
+            return Errors.General.ValueIsInvalid(Status.ToString());
+        
         _predictions.Add(prediction);
         return UnitResult.Success<Error>();
     }
