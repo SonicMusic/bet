@@ -25,7 +25,7 @@ public class Prediction : Entity, IIsDeletedField
     public new Guid Id { get; private set; }
     public int HomeTeamPredictedGoals { get; private set; } = default;
     public int AwayTeamPredictedGoals { get; private set; } = default;
-    public StatusPrediction Status { get; private set; } = StatusPrediction.Pending;
+    public StatusPrediction Status { get; private set; } = StatusPrediction.Waiting;
 
     public UnitResult<Error> SetStatus(StatusPrediction status)
     {

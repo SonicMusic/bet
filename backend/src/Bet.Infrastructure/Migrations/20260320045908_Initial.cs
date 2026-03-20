@@ -63,7 +63,7 @@ namespace Bet.Infrastructure.Migrations
                     game_id = table.Column<Guid>(type: "uuid", nullable: false),
                     home_team_predicted_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     away_team_predicted_goals = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    status = table.Column<string>(type: "text", nullable: false, defaultValue: "Pending"),
+                    status = table.Column<string>(type: "text", nullable: false, defaultValue: "Waiting"),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>

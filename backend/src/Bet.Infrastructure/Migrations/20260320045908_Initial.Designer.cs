@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260317153308_Initial")]
+    [Migration("20260320045908_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace Bet.Infrastructure.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("Pending")
+                        .HasDefaultValue("Waiting")
                         .HasColumnName("status");
 
                     b.Property<bool>("_isDeleted")

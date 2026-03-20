@@ -97,7 +97,7 @@ namespace Bet.Infrastructure.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("Pending")
+                        .HasDefaultValue("Waiting")
                         .HasColumnName("status");
 
                     b.Property<bool>("_isDeleted")

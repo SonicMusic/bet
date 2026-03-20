@@ -2,7 +2,8 @@
 
 public enum StatusPrediction
 {
-    Pending, // ожидание результата
+    Waiting, // ожидание
+    Live,   // в игре
     Win,    // победа
     Loss,   // проигрыш
     Draw,   //  ничья (возврат ставки, ставка засчитывается)

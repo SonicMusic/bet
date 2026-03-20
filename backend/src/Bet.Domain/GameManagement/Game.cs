@@ -59,14 +59,14 @@ public class Game : Entity, IIsDeletedField
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> SetStatus(StatusGame statusGame)
+    public UnitResult<Error> ChangeStatus(StatusGame statusGame)
     {
         Status = statusGame;
         
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> SetStart(DateTimeOffset dateTimeOffset)
+    public UnitResult<Error> SetStartDateTime(DateTimeOffset dateTimeOffset)
     {
         if (dateTimeOffset < DateTimeOffset.Now)
             return Errors.General.ValueIsInvalid(dateTimeOffset.ToString());

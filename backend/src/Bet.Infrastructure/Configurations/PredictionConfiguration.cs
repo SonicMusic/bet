@@ -20,7 +20,7 @@ public class PredictionConfiguration : IEntityTypeConfiguration<Prediction>
 
         builder.Property(p => p.Status)
             .HasConversion<string>()
-            .HasDefaultValue(StatusPrediction.Pending);
+            .HasDefaultValue(StatusPrediction.Waiting);
         
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

@@ -109,4 +109,26 @@ public class GamesController : ApplicationController
 
         return Ok(result.Value);
     }
+    
+    // todo удалить
+    [HttpPut("{guid:guid}/status")]
+    public async Task<ActionResult<Guid>> ChangeStatus(
+        [FromRoute] Guid guid,
+        [FromBody] ChangeStatusGameRequest request,
+        [FromServices] ChangeStatusGameRequestValidator validator,
+        [FromServices] ChangeStatusGameHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+            return BadRequest(validationResult.Errors);
+        
+        var command = new ChangeStatusGameCommand(guid, request.Status);
+
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 }
