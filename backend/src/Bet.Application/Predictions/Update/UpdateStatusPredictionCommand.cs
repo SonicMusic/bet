@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Predictions.Update;
+﻿using Bet.Application.Abstractions;
 
-public record UpdateStatusPredictionCommand(Guid GameId, Guid PredictionId, string Status);
+namespace Bet.Application.Predictions.Update;
+
+public record UpdateStatusPredictionCommand(Guid GameId, Guid PredictionId, string Status) : ICommand;

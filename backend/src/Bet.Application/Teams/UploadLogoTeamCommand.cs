@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Teams;
+﻿using Bet.Application.Abstractions;
 
-public record UploadLogoTeamCommand(Guid TeamId, Stream Stream);
+namespace Bet.Application.Teams;
+
+public record UploadLogoTeamCommand(Guid TeamId, Stream Stream) : ICommand;

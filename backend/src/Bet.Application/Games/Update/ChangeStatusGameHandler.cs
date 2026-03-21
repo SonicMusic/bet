@@ -1,4 +1,5 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.GameManagement.ValueObjects;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Games.Update;
 
-public class ChangeStatusGameHandler
+public class ChangeStatusGameHandler : ICommandHandler<Guid, ChangeStatusGameCommand>
 {
     private readonly IGamesRepository _repository;
     private readonly ILogger<ChangeStatusGameHandler> _logger;

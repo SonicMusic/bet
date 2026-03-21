@@ -1,11 +1,12 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Predictions.Delete;
 
-public class DeletePredictionHandler
+public class DeletePredictionHandler : ICommandHandler<Guid, DeletePredictionCommand>
 {
     private readonly IGamesRepository _repository;
     private readonly ILogger<DeletePredictionHandler> _logger;

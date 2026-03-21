@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Games.Update;
+﻿using Bet.Application.Abstractions;
 
-public record ChangeStatusGameCommand(Guid GameId, string StatusGame);
+namespace Bet.Application.Games.Update;
+
+public record ChangeStatusGameCommand(Guid GameId, string StatusGame) : ICommand;

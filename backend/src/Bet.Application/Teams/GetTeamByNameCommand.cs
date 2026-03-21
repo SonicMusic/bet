@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Teams;
+﻿using Bet.Application.Abstractions;
 
-public record GetTeamByNameCommand(string Name);
+namespace Bet.Application.Teams;
+
+public record GetTeamByNameCommand(string Name) : ICommand;

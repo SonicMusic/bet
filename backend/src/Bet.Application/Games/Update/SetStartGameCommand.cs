@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Games.Update;
+﻿using Bet.Application.Abstractions;
 
-public record SetStartGameCommand(Guid GameId, DateTimeOffset DateTimeOffset);
+namespace Bet.Application.Games.Update;
+
+public record SetStartGameCommand(Guid GameId, DateTimeOffset DateTimeOffset) : ICommand;

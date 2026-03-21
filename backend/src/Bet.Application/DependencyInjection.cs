@@ -1,30 +1,19 @@
-﻿using Bet.Application.Games.Create;
-using Bet.Application.Games.Delete;
-using Bet.Application.Games.Update;
-using Bet.Application.Predictions.Create;
-using Bet.Application.Teams;
-using Bet.Application.Teams.Create;
-using Bet.Application.Teams.Update;
+﻿using Bet.Application.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bet.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddAplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<CreateTeamHandler>();
-        services.AddScoped<UpdateTeamNameHandler>();
-        services.AddScoped<UploadTeamLogoHandler>();
-        services.AddScoped<GetTeamByNameHandler>();
+        var assembly = typeof(DependencyInjection).Assembly;
 
-        services.AddScoped<CreateGameHandler>();
-        services.AddScoped<UpdateGameHandler>();
-        services.AddScoped<DeleteGameHandler>();
-        services.AddScoped<SetStartGameHandler>();
-        services.AddScoped<ChangeStatusGameHandler>();
-        
-        services.AddScoped<CreatePredictionHandler>();
+        services.Scan(scan => scan.FromAssemblies(assembly)
+            .AddClasses(classes => classes
+                .AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
 
         return services;
     }

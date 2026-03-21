@@ -1,11 +1,12 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Games.Update;
 
-public class UpdateGameHandler
+public class UpdateGameHandler : ICommandHandler<Guid, UpdateGameCommand>
 {
     private readonly IGamesRepository _gamesRepository;
     private readonly ITeamsRepository _teamsRepository;

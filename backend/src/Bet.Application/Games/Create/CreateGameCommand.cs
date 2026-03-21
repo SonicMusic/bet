@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Games.Create;
+﻿using Bet.Application.Abstractions;
 
-public record CreateGameCommand(string HomeTeam, string AwayTeam);
+namespace Bet.Application.Games.Create;
+
+public record CreateGameCommand(string HomeTeam, string AwayTeam) : ICommand;

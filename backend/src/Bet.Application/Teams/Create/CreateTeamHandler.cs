@@ -1,4 +1,5 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
 using CSharpFunctionalExtensions;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Teams.Create;
 
-public class CreateTeamHandler
+public class CreateTeamHandler : ICommandHandler<Guid, CreateTeamCommand>
 {
     private readonly ITeamsRepository _repository;
     private readonly ILogger<CreateTeamHandler> _logger;

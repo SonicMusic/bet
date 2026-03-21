@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Games.Delete;
+﻿using Bet.Application.Abstractions;
 
-public record DeleteGameCommand(Guid Guid);
+namespace Bet.Application.Games.Delete;
+
+public record DeleteGameCommand(Guid Guid) : ICommand;

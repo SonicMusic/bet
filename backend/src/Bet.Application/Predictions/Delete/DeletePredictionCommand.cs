@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Predictions.Delete;
+﻿using Bet.Application.Abstractions;
 
-public record DeletePredictionCommand(Guid GameId, Guid PredictionId);
+namespace Bet.Application.Predictions.Delete;
+
+public record DeletePredictionCommand(Guid GameId, Guid PredictionId) : ICommand;

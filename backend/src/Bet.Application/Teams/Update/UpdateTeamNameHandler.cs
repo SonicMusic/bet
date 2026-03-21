@@ -1,11 +1,12 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Teams.Update;
 
-public class UpdateTeamNameHandler
+public class UpdateTeamNameHandler : ICommandHandler<Guid, UpdateTeamNameCommand>
 {
     private readonly ITeamsRepository _repository;
     private readonly ILogger<UpdateTeamNameHandler> _logger;

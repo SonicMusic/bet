@@ -1,10 +1,11 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 
 namespace Bet.Application.Teams;
 
-public class GetTeamByNameHandler
+public class GetTeamByNameHandler : ICommandHandler<Guid, GetTeamByNameCommand>
 {
     private readonly ITeamsRepository _repository;
 

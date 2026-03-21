@@ -20,7 +20,7 @@ Log.Logger = new LoggerConfiguration()
 // Add services to the container.
 builder.Services
     .AddAPI()
-    .AddAplication()
+    .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();

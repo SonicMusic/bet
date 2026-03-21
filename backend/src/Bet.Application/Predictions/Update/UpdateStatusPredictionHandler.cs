@@ -1,4 +1,5 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.GameManagement.ValueObjects;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Predictions.Update;
 
-public class UpdateStatusPredictionHandler
+public class UpdateStatusPredictionHandler : ICommandHandler<Guid, UpdateStatusPredictionCommand>
 {
     private readonly IGamesRepository _repository;
     private readonly ILogger<UpdateStatusPredictionHandler> _logger;

@@ -1,4 +1,5 @@
-﻿using Bet.Application.IoC;
+﻿using Bet.Application.Abstractions;
+using Bet.Application.IoC;
 using Bet.Domain.GameManagement;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Games.Create;
 
-public class CreateGameHandler
+public class CreateGameHandler : ICommandHandler<Guid, CreateGameCommand>
 {
     private readonly IGamesRepository _gamesRepository;
     private readonly ITeamsRepository _teamsRepository;
