@@ -2,7 +2,7 @@ using System.Data;
 using System.Text;
 using Dapper;
 
-namespace Bet.Application.Games;
+namespace Bet.Application.Extensions;
 
 public static class SqlExtensions
 {

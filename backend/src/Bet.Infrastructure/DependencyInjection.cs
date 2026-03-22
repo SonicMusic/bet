@@ -19,6 +19,9 @@ public static class DependencyInjection
         services.AddScoped<IGamesRepository, GamesRepository>();
         services.AddScoped<IMinioProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
+        
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         services.AddMinio(configuration);
 

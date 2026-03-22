@@ -1,4 +1,4 @@
-﻿namespace Bet.API.Models;
+﻿namespace Bet.Application.Models;
 
 public class PagedList<T>
 {

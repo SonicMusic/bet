@@ -1,6 +1,7 @@
 ﻿using Bet.API.Extensions;
 using Bet.API.Requests.Games;
 using Bet.API.Requests.Predictions;
+using Bet.Application.Games;
 using Bet.Application.Games.Create;
 using Bet.Application.Games.Delete;
 using Bet.Application.Games.Update;
@@ -130,5 +131,18 @@ public class GamesController : ApplicationController
             return result.Error.ToResponse();
 
         return Ok(result.Value);
+    }
+    
+    [HttpGet("dapper")]
+    public async Task<ActionResult> GetDapper(
+        [FromQuery] GetGamesWithStatusRequest request,
+        [FromServices] GetGamesWithStatusHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetGamesWithStatusQuery(request.Status, request.Page, request.PageSize);
+        
+        var response = await handler.Handle(query, cancellationToken);
+        
+        return Ok(response);
     }
 }

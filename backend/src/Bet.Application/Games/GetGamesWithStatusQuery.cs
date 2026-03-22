@@ -1,3 +1,5 @@
-﻿namespace Bet.Application.Games;
+﻿using Bet.Application.Abstractions;
 
-public record GetAllGamesQuery();
+namespace Bet.Application.Games;
+
+public record GetGamesWithStatusQuery(string Status, int Page, int PageSize) : IQuery;

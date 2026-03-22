@@ -1,3 +1,5 @@
-﻿namespace Bet.API.Requests.Games;
+﻿using Bet.Application.Games;
 
-public record GetGamesWithStatusRequest();
+namespace Bet.API.Requests.Games;
+
+public record GetGamesWithStatusRequest(string Status, int Page, int PageSize);

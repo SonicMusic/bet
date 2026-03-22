@@ -1,22 +1,55 @@
-﻿using Bet.Application.IoC;
+﻿using System.Text;
+using Bet.Application.Abstractions;
+using Bet.Application.Extensions;
+using Bet.Application.IoC;
 using Bet.Application.Models;
+using Dapper;
 using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Games;
 
-public class GetAllGamesHandler
+public class GetGamesWithStatusHandler : IQueryHandler<PagedList<GameDto>, GetGamesWithStatusQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
-    private readonly ILogger<GetAllGamesHandler> _logger;
+    private readonly ILogger<GetGamesWithStatusHandler> _logger;
 
-    public GetAllGamesHandler(ISqlConnectionFactory sqlConnectionFactory, ILogger<GetAllGamesHandler> logger)
+    public GetGamesWithStatusHandler(ISqlConnectionFactory sqlConnectionFactory, ILogger<GetGamesWithStatusHandler> logger)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
         _logger = logger;
     }
 
-    public async Task<PagedList<GameDto>> Handle()
+    public async Task<PagedList<GameDto>> Handle(GetGamesWithStatusQuery query, CancellationToken cancellationToken)
     {
+        var connection = _sqlConnectionFactory.Create();
         
+        var parameters = new DynamicParameters();
+
+        var totalCount = await connection.ExecuteScalarAsync<long>("SELECT COUNT(*) FROM games");
+        
+        var sql = new StringBuilder(
+            """
+              SELECT game_id, status FROM games
+            """);
+        
+        if (!string.IsNullOrWhiteSpace(query.Status))
+        {
+            sql.Append(" WHERE status = @Status");
+            parameters.Add("@Status", query.Status);
+        }
+        
+        sql.ApplyPagination(parameters, query.Page, query.PageSize);
+        
+        var games = await connection.QueryAsync<GameDto>(
+            sql.ToString(),
+            param: parameters);
+        
+        return new PagedList<GameDto>
+        {
+            Items = games.ToList(),
+            TotalCount = totalCount,
+            PageSize = query.PageSize,
+            Page = query.Page,
+        };
     }
 }
