@@ -6,6 +6,7 @@ using Bet.Application.Games.Create;
 using Bet.Application.Games.Delete;
 using Bet.Application.Games.Update;
 using Bet.Application.Predictions.Create;
+using Bet.Application.Teams;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bet.API.Controllers;
@@ -135,11 +136,24 @@ public class GamesController : ApplicationController
     
     [HttpGet("dapper")]
     public async Task<ActionResult> GetDapper(
-        [FromQuery] GetGamesWithStatusRequest request,
-        [FromServices] GetGamesWithStatusHandler handler,
+        [FromQuery] GetGamesByStatusRequest request,
+        [FromServices] GetGamesByStatusHandler handler,
         CancellationToken cancellationToken)
     {
-        var query = new GetGamesWithStatusQuery(request.Status, request.Page, request.PageSize);
+        var query = new GetGamesByStatusQuery(request.Status, request.Page, request.PageSize);
+        
+        var response = await handler.Handle(query, cancellationToken);
+        
+        return Ok(response);
+    }
+    
+    [HttpGet("efcore")]
+    public async Task<ActionResult> GetGamesByTeam(
+        [FromQuery] GetGamesByTeamRequest request,
+        [FromServices] GetGamesByTeamHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetGamesByTeamQuery(request.Team, request.Page, request.PageSize);
         
         var response = await handler.Handle(query, cancellationToken);
         

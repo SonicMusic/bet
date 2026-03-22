@@ -1,14 +1,15 @@
 ﻿using System.Data;
 using Bet.Application.IoC;
+using Bet.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Bet.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public UnitOfWork(ApplicationDbContext dbContext)
+    public UnitOfWork(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }

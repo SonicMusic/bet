@@ -1,4 +1,5 @@
 ﻿using Bet.Application.IoC;
+using Bet.Infrastructure.Contexts;
 using Bet.Infrastructure.Options;
 using Bet.Infrastructure.Providers;
 using Bet.Infrastructure.Repositories;
@@ -14,7 +15,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<ApplicationDbContext>();
+        services.AddScoped<WriteDbContext>();
+        services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<ITeamsRepository, TeamsRepository>();
         services.AddScoped<IGamesRepository, GamesRepository>();
         services.AddScoped<IMinioProvider, MinioProvider>();

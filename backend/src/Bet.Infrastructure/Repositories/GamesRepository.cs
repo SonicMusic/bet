@@ -1,6 +1,7 @@
 ﻿using Bet.Application.IoC;
 using Bet.Domain.GameManagement;
 using Bet.Domain.Shared;
+using Bet.Infrastructure.Contexts;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,9 @@ namespace Bet.Infrastructure.Repositories;
 
 public class GamesRepository : IGamesRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public GamesRepository(ApplicationDbContext dbContext)
+    public GamesRepository(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }

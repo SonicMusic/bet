@@ -8,18 +8,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Bet.Application.Games;
 
-public class GetGamesWithStatusHandler : IQueryHandler<PagedList<GameDto>, GetGamesWithStatusQuery>
+public class GetGamesByStatusHandler : IQueryHandler<PagedList<GameDto>, GetGamesByStatusQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
-    private readonly ILogger<GetGamesWithStatusHandler> _logger;
+    private readonly ILogger<GetGamesByStatusHandler> _logger;
 
-    public GetGamesWithStatusHandler(ISqlConnectionFactory sqlConnectionFactory, ILogger<GetGamesWithStatusHandler> logger)
+    public GetGamesByStatusHandler(ISqlConnectionFactory sqlConnectionFactory, ILogger<GetGamesByStatusHandler> logger)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
         _logger = logger;
     }
 
-    public async Task<PagedList<GameDto>> Handle(GetGamesWithStatusQuery query, CancellationToken cancellationToken)
+    public async Task<PagedList<GameDto>> Handle(GetGamesByStatusQuery query, CancellationToken cancellationToken)
     {
         var connection = _sqlConnectionFactory.Create();
         

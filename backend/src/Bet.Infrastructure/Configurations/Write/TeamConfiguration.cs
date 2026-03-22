@@ -3,7 +3,7 @@ using Bet.Domain.TeamManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Bet.Infrastructure.Configurations;
+namespace Bet.Infrastructure.Configurations.Write;
 
 public class TeamConfiguration: IEntityTypeConfiguration<Team>
 {

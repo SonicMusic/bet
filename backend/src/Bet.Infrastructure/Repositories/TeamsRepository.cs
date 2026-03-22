@@ -1,6 +1,7 @@
 ﻿using Bet.Application.IoC;
 using Bet.Domain.Shared;
 using Bet.Domain.TeamManagement;
+using Bet.Infrastructure.Contexts;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,9 @@ namespace Bet.Infrastructure.Repositories;
 
 public class TeamsRepository : ITeamsRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public TeamsRepository(ApplicationDbContext dbContext)
+    public TeamsRepository(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }
