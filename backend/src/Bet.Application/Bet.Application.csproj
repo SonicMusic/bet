@@ -12,10 +12,16 @@
 
     <ItemGroup>
       <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
       <PackageReference Include="Scrutor" Version="6.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Games\Commands\" />
+      <Folder Include="Predictions\Commands\" />
     </ItemGroup>
 
 </Project>

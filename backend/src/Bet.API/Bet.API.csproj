@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Bet.Accounts\Bet.Accounts.csproj" />
       <ProjectReference Include="..\Bet.Application\Bet.Application.csproj" />
       <ProjectReference Include="..\Bet.Domain\Bet.Domain.csproj" />
       <ProjectReference Include="..\Bet.Infrastructure\Bet.Infrastructure.csproj" />

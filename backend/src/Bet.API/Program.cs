@@ -1,3 +1,4 @@
+using Bet.Accounts;
 using Bet.API;
 using Bet.API.Middlewares;
 using Bet.Application;
@@ -19,9 +20,10 @@ Log.Logger = new LoggerConfiguration()
 
 // Add services to the container.
 builder.Services
-    .AddAPI()
+    .AddApi()
     .AddApplication()
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddAccounts(builder.Configuration);
 
 var app = builder.Build();
 
@@ -38,6 +40,7 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

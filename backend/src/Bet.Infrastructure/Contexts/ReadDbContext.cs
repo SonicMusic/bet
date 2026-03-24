@@ -1,4 +1,5 @@
-﻿using Bet.Application.Models;
+﻿using Bet.Application.IoC;
+using Bet.Application.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

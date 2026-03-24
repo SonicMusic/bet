@@ -1,5 +1,5 @@
 ﻿using Bet.Application.IoC;
-using Bet.Application.Teams;
+using Bet.Application.Teams.Commands;
 using Bet.Domain.Shared;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;

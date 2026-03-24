@@ -1,8 +1,6 @@
 using Bet.Application.Models;
-using Bet.Domain.GameManagement;
-using Bet.Domain.TeamManagement;
 
-namespace Bet.Infrastructure.Contexts;
+namespace Bet.Application.IoC;
 
 public interface IReadDbContext
 {
